@@ -1,10 +1,10 @@
-import Vue from 'vue'
-import Router from 'vue-router'
+// import Vue from 'vue'
+// import Router from 'vue-router'
 import HelloWorld from '@/components/HelloWorld'
 
-Vue.use(Router)
+// Vue.use(Router)
 
-export default new Router({
+export default new VueRouter({
   routes: [
     {
       path: '/',
