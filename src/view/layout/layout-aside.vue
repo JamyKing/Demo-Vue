@@ -1,15 +1,14 @@
 <template>
     <el-menu
-        :collapse="isCollapse"
         :default-active="$route.path"
-        class="el-menu-vertical-demo"
+        class="menus"
+        router
         background-color="#545c64"
         text-color="#fff"
         active-text-color="#ffd04b"
     >
         <!--是否水平折叠收起菜单 会影响这里字段的显示 -->
-        <h3 v-show="isCollapse">偶囧</h3>
-        <h3 v-show="!isCollapse">偶囧后台管理系统</h3>
+        <h3>Demo</h3>
         <el-menu-item :index="item.path" v-for="item in noChildren" :key="item.path" @click="clickMenu(item)">
             <i :class="'el-icon-' + item.icon"></i>
             <span slot="title">{{ item.label }}</span>
@@ -37,29 +36,20 @@ export default {
         return {
             menu: [
                 {
-                    path: '/user',
-                    name: 'user',
-                    label: '用户管理',
-                    icon: 'user',
-                    url: 'UserManage/UserManage'
+                    path: '/home',
+                    name: 'home',
+                    label: '首页',
+                    icon: 'user'
                 },
                 {
                     label: '其他',
                     icon: 'location',
                     children: [
                         {
-                            path: '/page1',
-                            name: 'page1',
+                            path: '/hello',
+                            name: 'hello',
                             label: '页面1',
-                            icon: 'setting',
-                            url: 'Other/PageOne'
-                        },
-                        {
-                            path: '/page2',
-                            name: 'page2',
-                            label: '页面2',
-                            icon: 'setting',
-                            url: 'Other/PageTwo'
+                            icon: 'setting'
                         }
                     ]
                 }
@@ -85,7 +75,16 @@ export default {
         }
     },
     watch: {},
-    methods: {}
+    methods: {
+        clickMenu (item) {
+            console.log(item)
+        }
+    }
 }
 </script>
 
+<style lang="scss">
+.menus {
+    height: 100vh;
+}
+</style>

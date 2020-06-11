@@ -26,8 +26,8 @@ module.exports = {
   },
   externals:{
     'vue': 'Vue',
-    'vue-router': 'VueRouter',
     'vuex':'Vuex',
+    'vue-router': 'VueRouter',
     'element-ui': 'ElementUI'
   },
   output: {
@@ -80,6 +80,10 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
+      },
+      {
+        test: /\.scss$/,
+        loader: ['style', 'css', 'sass']
       }
     ]
   },
