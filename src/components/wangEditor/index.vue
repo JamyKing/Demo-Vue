@@ -13,7 +13,7 @@
     name: 'EditorBar',
     data () {
       return {
-        // uploadPath,
+        uploadPath: '', // 图片上传服务器地址
         editor: null,
         info_: null
       }
@@ -28,10 +28,6 @@
         default: ''
       },
       isClear: {
-        type: Boolean,
-        default: false
-      },
-      disabled: {
         type: Boolean,
         default: false
       }
@@ -49,22 +45,17 @@
           this.editor.txt.html(this.value)
         }
       }
-      /* disabled () {
-        this.seteditor()
-        this.editor.txt.html(this.value)
-      } */
       // value为编辑框输入的内容，这里我监听了一下值，当父组件调用得时候，如果给value赋值了，子组件将会显示父组件赋给的值
     },
     mounted () {
-      this.seteditor()
+      this.setEditor()
       this.editor.txt.html(this.value)
     },
     methods: {
-      seteditor () {
-        // http://192.168.2.125:8080/admin/storage/create
+      setEditor () {
         this.editor = new E(this.$refs.toolbar, this.$refs.editor)
         this.editor.customConfig.uploadImgShowBase64 = false // base 64 存储图片
-        this.editor.customConfig.uploadImgServer = ''// 配置服务器端地址
+        this.editor.customConfig.uploadImgServer = this.uploadPath// 配置服务器端地址
         this.editor.customConfig.uploadImgHeaders = { }// 自定义 header
         this.editor.customConfig.uploadFileName = 'file' // 后端接受上传文件的参数名
         this.editor.customConfig.uploadImgMaxSize = 2 * 1024 * 1024 // 将图片大小限制为 2M
@@ -127,7 +118,6 @@
         }
         // 创建富文本编辑器
         this.editor.create()
-        // this.editor.$textElem.attr('contenteditable', !this.disabled)
       }
     }
   }
@@ -145,6 +135,6 @@
   }
   .text {
     border: 1px solid #ccc;
-    min-height: 500px;
+    min-height: 600px;
   }
 </style>

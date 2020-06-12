@@ -4,7 +4,7 @@
             <editor-bar ref="editor" v-model="content" @change="editorChange" :isClear="isClear"></editor-bar>
         </el-col>
         <el-col :span="12">
-            <el-card v-html="htmlRander" style="padding: 20px;"></el-card>
+            <el-card v-html="htmlRander" :style="getHeight"></el-card>
         </el-col>
     </el-row>
 </template>
@@ -26,7 +26,12 @@ export default {
     },
     activated() {
     },
-    computed: {},
+    computed: {
+        getHeight () {
+            let height = this.$store.state.clientHeight - 150
+            return `min-height: ${height}px; padding: 20px;`
+        }
+    },
     watch: {},
     methods: {
         editorChange (data) {

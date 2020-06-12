@@ -1,20 +1,14 @@
 <template>
   <div id="app">
     <el-container>
-      <!--左侧栏-->
       <el-aside width="200px">
-        <!--左侧栏控件-->
         <layout-aside></layout-aside>
       </el-aside>
-      <!--右侧栏-->
       <el-container>
-        <!--header部分-->
         <el-header>
-          <!--header部分控件-->
           <layout-header></layout-header>
         </el-header>
         <el-main>
-          <!--左侧栏 和 header部分对于整个后台部分都是不变的，唯一变的就是上面3的部分，这里就通过router-view来展示所需控件-->
           <router-view></router-view>
         </el-main>
       </el-container>
@@ -31,6 +25,27 @@ export default {
     layoutHeader,
     layoutAside
   },
+  mounted () {
+    this.resetHeight()
+  },
+  computed: {
+    clientHeight: {
+      get () {
+        return this.$store.state.clientHeight
+      },
+      set (val) {
+        this.$store.commit('setClientHeight', val)
+      }
+    }
+  },
+  methods: {
+    resetHeight () {
+      this.clientHeight = document.documentElement['clientHeight']
+      window.onresize = () => {
+        this.clientHeight = document.documentElement['clientHeight']
+      }
+    },
+  }
 }
 </script>
 

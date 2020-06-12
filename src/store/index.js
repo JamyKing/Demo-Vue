@@ -4,11 +4,11 @@
 
 const store = new Vuex.Store({
 	state: {
-		isCollapse: false
+		clientHeight: 0
 	},
 	mutations: {
-		collapseMenu (state) {
-			state.isCollapse = !state.isCollapse
+		setClientHeight (state, height) {
+			state.clientHeight = height
 		}
 	},
 	getters: {}
