@@ -5,7 +5,7 @@
         <layout-aside></layout-aside>
       </el-aside>
       <el-container>
-        <el-header>
+        <el-header style="padding: 0;">
           <layout-header></layout-header>
         </el-header>
         <el-main>
@@ -50,12 +50,8 @@ export default {
 </script>
 
 <style lang="scss">
-* {
-  margin: 0;
-  padding: 0;
-}
-#app {
-  width: 100%;
-  height: 100%;
-}
+  /* 公共样式 */
+  @import './assets/css/common.css';
+  /* 动画库 */
+  @import './assets/css/animate.css';
 </style>

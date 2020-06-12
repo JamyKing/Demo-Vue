@@ -2,7 +2,7 @@
   <div class="editor">
     <div ref="toolbar" class="toolbar">
     </div>
-    <div ref="editor" class="text">
+    <div ref="editor" class="text" :style="getHeight">
     </div>
   </div>
 </template>
@@ -46,6 +46,12 @@
         }
       }
       // value为编辑框输入的内容，这里我监听了一下值，当父组件调用得时候，如果给value赋值了，子组件将会显示父组件赋给的值
+    },
+    computed: {
+      getHeight () {
+        let height = this.$store.state.clientHeight - 150
+        return `min-height: ${height}px;`
+      }
     },
     mounted () {
       this.setEditor()
@@ -135,6 +141,6 @@
   }
   .text {
     border: 1px solid #ccc;
-    min-height: 600px;
+    /*min-height: 600px;*/
   }
 </style>

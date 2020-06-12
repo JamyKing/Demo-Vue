@@ -1,7 +1,7 @@
 <template>
-    <header style="background: skyblue">
-        <el-button plain icon="el-icon-menu" size="mini" @click="collapseMenu"></el-button>
-    </header>
+    <div class="header">
+        <h2>Demo 演示</h2>
+    </div>
 </template>
 
 <script>
@@ -19,14 +19,16 @@ export default {
     computed: {},
     watch: {},
     methods: {
-        //控制左侧菜单是否折叠
-        collapseMenu () {
-            this.$store.commit('collapseMenu')
-        },
-        //退出登陆
-        logOut () {
-            location.reload()
-        }
+
     }
 }
 </script>
+
+<style lang="scss">
+.header {
+    height: 60px;
+    background: #E9ECEF;
+    line-height: 60px;
+    padding: 0 30px;
+}
+</style>
