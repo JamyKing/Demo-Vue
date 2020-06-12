@@ -42,13 +42,13 @@ export default {
                     icon: 'user'
                 },
                 {
-                    label: '其他',
+                    label: '组件',
                     icon: 'location',
                     children: [
                         {
-                            path: '/hello',
-                            name: 'hello',
-                            label: '页面1',
+                            path: '/editor',
+                            name: 'editor',
+                            label: '富文本编辑',
                             icon: 'setting'
                         }
                     ]

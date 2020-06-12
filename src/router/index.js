@@ -16,9 +16,9 @@ export default new VueRouter({
       component: resolve => require(['@/view/home/home'], resolve)
     },
     {
-      path: '/hello',
-      name: 'hello',
-      component: resolve => require(['@/components/HelloWorld'], resolve),
+      path: '/editor',
+      name: 'editor',
+      component: resolve => require(['@/view/component/editor'], resolve),
     }
   ]
 })
