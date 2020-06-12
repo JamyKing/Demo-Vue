@@ -16,7 +16,7 @@
         <el-row>
             <el-button plain :disabled="over" @click="loadJS" v-loading.fullscreen.lock="Loading">加载JS</el-button>
         </el-row>
-        <load-iconfont :jsUrl="jsUrl" :js-load-call-back="loadOver"></load-iconfont>
+        <load-iconfont :loadType="loadType" :jsUrl="jsUrl" :js-load-call-back="loadOver"></load-iconfont>
     </div>
 </template>
 
@@ -29,6 +29,7 @@ export default {
     },
     data() {
         return {
+            loadType: null,
             jsUrl: null,
             over: false,
             Loading: false
@@ -38,6 +39,7 @@ export default {
         loadJS () {
             this.Loading = true
             setTimeout(() => {
+                this.loadType = 'js'
                 this.jsUrl = 'http://at.alicdn.com/t/font_1861818_lxk3phskiu.js'
             }, 1000)
         },
