@@ -9,7 +9,9 @@
           <layout-header></layout-header>
         </el-header>
         <el-main>
-          <router-view></router-view>
+          <keep-alive :include="['editor', 'loadIcon']">
+            <router-view></router-view>
+          </keep-alive>
         </el-main>
       </el-container>
     </el-container>

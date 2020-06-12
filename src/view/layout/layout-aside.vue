@@ -6,7 +6,7 @@
         text-color="#fff"
         active-text-color="#ffd04b"
         :style="getHeight">
-        <el-menu-item :index="item.path" v-for="item in noChildren" :key="item.path" @click="clickMenu(item)">
+        <el-menu-item :index="item.path" v-for="item in noChildren" :key="item.path">
             <i :class="'el-icon-' + item.icon"></i>
             <span slot="title">{{ item.label }}</span>
         </el-menu-item>
@@ -16,7 +16,7 @@
                 <span slot="title">{{ item.label }}</span>
             </template>
             <el-menu-item-group>
-                <el-menu-item :index="subItem.path" v-for="(subItem, subIndex) in item.children" :key="subIndex" @click="clickMenu(subItem)">
+                <el-menu-item :index="subItem.path" v-for="(subItem, subIndex) in item.children" :key="subIndex">
                     <i :class="'el-icon-' + subItem.icon"></i>
                     <span slot="title">{{ subItem.label }}</span>
                 </el-menu-item>
@@ -39,6 +39,12 @@ export default {
                     icon: 'eleme'
                 },
                 {
+                    path: '/test',
+                    name: 'test',
+                    label: 'TEST',
+                    icon: 'brush'
+                },
+                {
                     label: '组件',
                     icon: 'present',
                     children: [
@@ -47,15 +53,17 @@ export default {
                             name: 'editor',
                             label: '富文本编辑',
                             icon: 'edit-outline'
+                        },
+                        {
+                            path: '/loadIcon',
+                            name: 'loadIcon',
+                            label: '远程js加载',
+                            icon: 'edit-outline'
                         }
                     ]
                 }
             ]
         }
-    },
-    created() {
-    },
-    activated() {
     },
     computed: {
         getHeight () {
@@ -71,11 +79,7 @@ export default {
             return this.menu.filter(item => item.children)
         }
     },
-    watch: {},
     methods: {
-        clickMenu (item) {
-            console.log(item)
-        }
     }
 }
 </script>

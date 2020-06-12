@@ -16,9 +16,20 @@ export default new VueRouter({
       component: resolve => require(['@/view/home/home'], resolve)
     },
     {
+      path: '/test',
+      name: 'test',
+      component: resolve => require(['@/view/test/test'], resolve),
+    },
+    {
       path: '/editor',
       name: 'editor',
       component: resolve => require(['@/view/component/editor'], resolve),
+    },
+    {
+      path: '/loadIcon',
+      name: 'loadIcon',
+      component: resolve => require(['@/view/component/loadIcon'], resolve),
     }
+
   ]
 })
