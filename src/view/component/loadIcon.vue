@@ -1,6 +1,7 @@
 <template>
     <div class="u-f-col">
-        <h3>页面中icon的symbol引用、class引用其实已经写好，可查看dom树，只是因为没有引入对应的js、css，icon图标无法显示。</h3>
+        <h2>动态加载JS/CSS文件</h2>
+        <h3>Icon使用阿里矢量图标，分别采用symbol引用、class引用，可查看dom树，只是因为没有引入对应的js、css，icon图标无法显示。</h3>
         <el-row :gutter="30">
             <el-col :span="8">
                 <el-card class="card">

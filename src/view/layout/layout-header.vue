@@ -1,6 +1,11 @@
 <template>
     <div class="header">
-        <h2>Demo 演示</h2>
+        <h2>
+            Demo 演示
+            <el-link :underline="false" href="https://github.com/iRainy6661/Demo-Vue">
+                <i class="iconfont icon-github" style="font-size: 30px;"></i>
+            </el-link>
+        </h2>
     </div>
 </template>
 

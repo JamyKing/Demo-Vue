@@ -57,8 +57,8 @@ export default {
                         {
                             path: '/loadIcon',
                             name: 'loadIcon',
-                            label: '远程js加载',
-                            icon: 'edit-outline'
+                            label: '动态加载JS/CSS',
+                            icon: 'loading'
                         }
                     ]
                 }
