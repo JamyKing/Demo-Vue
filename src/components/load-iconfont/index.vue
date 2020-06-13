@@ -1,11 +1,11 @@
 <template>
-  <remote-js :type="this.loadTypeJs" :src="this.loadUrl" @load-finish="this.loadCallBack"></remote-js>
+  <remote-load :type="this.loadTypeJs" :src="this.loadUrl" @load-finish="this.loadCallBack"></remote-load>
 </template>
 
 <script>
   export default {
     components: {
-      'remote-js': {
+      'remote-load': {
         render (createElement) {
           const that = this
           return createElement(this.type ? 'script' : 'link', {
