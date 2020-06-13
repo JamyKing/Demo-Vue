@@ -34,7 +34,7 @@
         type: Boolean,
         default: true,
         required: true
-      }, // 加载类型：js | css
+      }, // 加载类型：true: js | false: css
       loadUrl: { required: true }, // 需要加载的外部url
       loadCallBack: Function// 外部js加载完成回调
     }

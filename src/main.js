@@ -3,8 +3,6 @@ import App from './App'
 import store from './store'
 import router from './router'
 
-// Vue.use(ElementUI)
-
 Vue.config.productionTip = false
 Vue.prototype.$store = store
 

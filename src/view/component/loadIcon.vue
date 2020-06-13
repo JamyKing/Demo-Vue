@@ -33,16 +33,16 @@
             </el-col>
         </el-row>
         <h3>加载时可打开浏览器调试工具，Network中查看。</h3>
-        <load-iconfont :loadTypeJs="loadTypeJs" :loadUrl="loadUrl" :load-call-back="loadOver"></load-iconfont>
+        <dynamic-load :loadTypeJs="loadTypeJs" :loadUrl="loadUrl" :load-call-back="loadOver"></dynamic-load>
     </div>
 </template>
 
 <script>
-import loadIconfont from '@/components/load-iconfont'
+import dynamicLoad from '@/components/dynamic-load'
 export default {
     name: 'loadIcon',
     components: {
-        loadIconfont
+        dynamicLoad
     },
     data() {
         return {
