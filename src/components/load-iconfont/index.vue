@@ -1,5 +1,5 @@
 <template>
-  <remote-js :typeInfo="this.loadType" :src="this.jsUrl" @load-js-finish="this.jsLoadCallBack"></remote-js>
+  <remote-js :type="this.loadTypeJs" :src="this.loadUrl" @load-finish="this.loadCallBack"></remote-js>
 </template>
 
 <script>
@@ -8,38 +8,35 @@
       'remote-js': {
         render (createElement) {
           const that = this
-          console.log(that.typeInfo)
-          if (this.typeInfo === 'js') {
-            return createElement('script', {
-              attrs: { type: 'text/javascript', src: this.src },
-              on: {
-                load: function () {
-                  that.$emit('load-js-finish')
-                }
+          return createElement(this.type ? 'script' : 'link', {
+            attrs: { [this.type ? 'type' : 'rel']: this.type ? 'text/javascript' : 'stylesheet', [this.type ? 'src' : 'href']: this.src },
+            on: {
+              load: function () {
+                that.$emit('load-finish')
               }
-            })
-          } else if (this.typeInfo === 'css') {
-            return createElement('link', {
-              attrs: { rel: 'stylesheet', href: this.src },
-              on: {
-                load: function () {
-                  that.$emit('load-js-finish')
-                }
-              }
-            })
-          }
+            }
+          })
         },
         props: {
           src: {
+            required: true
+          },
+          type: {
+            type: Boolean,
+            default: true,
             required: true
           }
         }
       }
     },
     props: {
-      loadType: { required: true }, // 加载类型：js | css
-      jsUrl: { required: true }, // 需要加载的外部url
-      jsLoadCallBack: Function// 外部js加载完成回调
+      loadTypeJs: {
+        type: Boolean,
+        default: true,
+        required: true
+      }, // 加载类型：js | css
+      loadUrl: { required: true }, // 需要加载的外部url
+      loadCallBack: Function// 外部js加载完成回调
     }
   }
 </script>
