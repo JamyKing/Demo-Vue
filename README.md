@@ -1,6 +1,8 @@
-# demo-vue
+# Demo-Vue
 
-> A Vue.js project
+> Vue组件开发 - demo演示
+
+**[线上演示地址](http://demo.jianking.vip/)**
 
 ## Build Setup
 
