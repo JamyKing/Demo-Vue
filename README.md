@@ -4,20 +4,25 @@
 
 **[线上演示地址](http://demo.jianking.vip/)**
 
+## 简介
+
+> 项目使用 Vue + Element UI 构建，整体布局为后台管理类型，主要为 demo 演示项目，此项目已经进行了相关的优化，包括路由懒加载、打包优化、cdn加速等，不懂的同学可参照 [Vue项目优化篇](http://www.jianking.vip/#/detail?id=24) ，对照项目源码。
+
+### 目录
+
+- [富文本编辑](http://demo.jianking.vip/#/editor)
+
+- [动态加载JS/CSS](http://demo.jianking.vip/#/loadIcon)
+
 ## Build Setup
 
 ``` bash
+# git clone
+git clone git@github.com:iRainy6661/Demo-Vue.git
+
 # install dependencies
 npm install
 
 # serve with hot reload at localhost:8080
 npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
