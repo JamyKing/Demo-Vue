@@ -1,6 +1,5 @@
 // import Vue from 'vue'
 // import Router from 'vue-router'
-// import HelloWorld from '@/components/HelloWorld'
 
 // Vue.use(VueRouter)
 
@@ -30,6 +29,5 @@ export default new VueRouter({
       name: 'loadIcon',
       component: resolve => require(['@/view/component/loadIcon'], resolve),
     }
-
   ]
 })
