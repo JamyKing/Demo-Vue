@@ -10,6 +10,8 @@
 
 ### 目录
 
+- [首页](http://demo.jianking.vip/#/home)
+
 - [富文本编辑](http://demo.jianking.vip/#/editor)
 
 - [动态加载JS/CSS](http://demo.jianking.vip/#/loadIcon)
