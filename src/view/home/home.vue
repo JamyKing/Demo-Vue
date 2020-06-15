@@ -151,26 +151,29 @@ export default {
                     }]
                 }
                 pictorial.setOption(pictorialOption)
+                window.addEventListener('resize', function () {
+                    pictorial.resize()
+                })
             }
             if (gaugeChart) {
                 const gauge = echarts.init(
                     document.getElementById('gauge')
                 )
                 const gaugeOption = {
-                    backgroundColor: '#00bfbf',
-                    tooltip: {
-                        formatter: '{a} <br/>{b} : {c}%'
-                    },
+                    backgroundColor: '#e8ebb8',
                     series: [
                         {
-                            name: '业务指标',
+                            name: '回头率',
                             type: 'gauge',
                             detail: {formatter: '{value}%'},
-                            data: [{value: 50, name: '完成率'}]
+                            data: [{value: 68, name: ''}]
                         }
                     ]
                 }
                 gauge.setOption(gaugeOption)
+                window.addEventListener('resize', function () {
+                    gauge.resize()
+                })
             }
             if (lineChart) {
                 const line = echarts.init(
@@ -203,13 +206,16 @@ export default {
                     }]
                 }
                 line.setOption(lineOption)
+                window.addEventListener('resize', function () {
+                    line.resize()
+                })
             }
             if (barChart) {
                 const bar = echarts.init(
                     document.getElementById('bar')
                 )
                 const barOption = {
-                    backgroundColor: '#6dcc84',
+                    backgroundColor: '#1fedcc',
                     angleAxis: {
                         type: 'category',
                         data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
@@ -243,13 +249,10 @@ export default {
                     }
                 }
                 bar.setOption(barOption)
+                window.addEventListener('resize', function () {
+                    bar.resize()
+                })
             }
-            window.addEventListener('resize', function () {
-                pictorial.resize()
-                gauge.resize()
-                line.resize()
-                bar.resize()
-            })
         }
     }
 }

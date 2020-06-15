@@ -54,6 +54,4 @@ export default {
 <style lang="scss">
   /* 公共样式 */
   @import './assets/css/common.css';
-  /* 动画库 */
-  @import './assets/css/animate.css';
 </style>
