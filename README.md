@@ -16,6 +16,8 @@
 
 - [动态加载JS/CSS](http://demo.jianking.vip/#/loadIcon)
 
+![DemoVue](https://raindate.oss-cn-hangzhou.aliyuncs.com/DemoVue/demo-home.png)
+
 ## Build Setup
 
 ``` bash
