@@ -16,6 +16,21 @@
                             <use xlink:href="#icon-github"></use>
                         </svg>
                     </el-tag>
+                    <el-tag class="tags" type="info">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-zhihu"></use>
+                        </svg>
+                    </el-tag>
+                    <el-tag class="tags" type="warning">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-jianshu"></use>
+                        </svg>
+                    </el-tag>
+                    <el-tag class="tags" type="danger">
+                        <svg class="icon" aria-hidden="true">
+                            <use xlink:href="#icon-uniapp"></use>
+                        </svg>
+                    </el-tag>
                 </el-card>
                 <el-button plain :disabled="overJS" @click="load(true)" v-loading.fullscreen.lock="Loading">加载JS</el-button>
             </el-col>
@@ -27,6 +42,15 @@
                     </el-tag>
                     <el-tag class="tags" type="success">
                         <i class="iconfont icon-github" style="font-size: 20px;"></i>
+                    </el-tag>
+                    <el-tag class="tags" type="info">
+                        <i class="iconfont icon-zhihu" style="font-size: 20px;"></i>
+                    </el-tag>
+                    <el-tag class="tags" type="warning">
+                        <i class="iconfont icon-jianshu" style="font-size: 20px;"></i>
+                    </el-tag>
+                    <el-tag class="tags" type="danger">
+                        <i class="iconfont icon-uniapp" style="font-size: 20px;"></i>
                     </el-tag>
                 </el-card>
                 <el-button plain :disabled="overCSS" @click="load(false)" v-loading.fullscreen.lock="Loading">加载CSS</el-button>
