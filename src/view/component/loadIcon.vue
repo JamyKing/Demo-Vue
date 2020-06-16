@@ -58,7 +58,7 @@ export default {
             this.Loading = true
             setTimeout(() => {
                 this.loadTypeJs = val
-                this.loadUrl = `https://at.alicdn.com/t/font_1861818_lxk3phskiu.${val ? 'js' : 'css'}`
+                this.loadUrl = `https://at.alicdn.com/t/font_1861818_uturk9fjhcd.${val ? 'js' : 'css'}`
             }, 1000)
         },
         loadOver () {
