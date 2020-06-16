@@ -18,8 +18,8 @@ export default {
     },
     data() {
         return {
-            content: '',
-            htmlRander: ''
+            content: '<h2 style="text-align: center;">富文本编辑</h2><h3 style="text-align: center;">第一条</h3><h3 style="text-align: center;">第二条</h3><h3 style="text-align: center;">第三条</h3><p></p>',
+            htmlRander: '<h2 style="text-align: center;">富文本编辑</h2><h3 style="text-align: center;">第一条</h3><h3 style="text-align: center;">第二条</h3><h3 style="text-align: center;">第三条</h3><p></p>'
         }
     },
     created() {

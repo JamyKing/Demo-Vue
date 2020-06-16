@@ -13,7 +13,7 @@
     name: 'EditorBar',
     data () {
       return {
-        uploadPath: '', // 图片上传服务器地址
+        uploadPath: 'www', // 图片上传服务器地址
         editor: null,
         info_: null
       }
@@ -137,6 +137,8 @@
     z-index: 0;
   }
   .toolbar {
+    display: flex;
+    flex-wrap: wrap;
     border: 1px solid #ccc;
   }
   .text {
