@@ -1,9 +1,9 @@
 <template>
     <div class="content">
-        <div class="item-1" ref="pictorial" id="pictorial"></div>
-        <div class="item-2" ref="gauge" id="gauge"></div>
-        <div class="item-3" ref="line" id="line"></div>
-        <div class="item-4" ref="bar" id="bar"></div>
+        <div class="item-1" id="rangeDom"></div>
+        <div class="item-2" id="wordCloudDom"></div>
+        <div class="item-3" id="gaugeDom"></div>
+        <div class="item-4" id="roseDom"></div>
         <div class="item-5">
             <el-timeline>
                 <el-timeline-item timestamp="2020/6/14" placement="top" type="success">
@@ -25,234 +25,162 @@ export default {
     name: 'home',
     components: {},
     data() {
-        return {}
+        return {
+            rangeData: [
+                { type: '分类一', values: [76, 100] },
+                { type: '分类二', values: [56, 108] },
+                { type: '分类三', values: [38, 129] },
+                { type: '分类四', values: [58, 155] },
+                { type: '分类五', values: [45, 120] },
+                { type: '分类六', values: [23, 99] },
+                { type: '分类七', values: [18, 56] },
+                { type: '分类八', values: [18, 34] }
+            ],
+            wordData: [{
+                id: 1,
+                word: 'Vue',
+                weight: 100
+
+            }, {
+                id: 2,
+                word: 'Vuex',
+                weight: 20
+            }, {
+                id: 3,
+                word: 'Element UI',
+                weight: 80,
+
+            }, {
+                id: 4,
+                word: 'Vue-Router',
+                weight: 60
+            }, {
+                id: 5,
+                word: 'g2plot',
+                weight: 20,
+
+            }, {
+                id: 6,
+                word: 'wangeditor',
+                weight: 10
+            }],
+            roseData: [
+                {
+                    type: '分类一',
+                    value: 27,
+                },
+                {
+                    type: '分类二',
+                    value: 25,
+                },
+                {
+                    type: '分类三',
+                    value: 18,
+                },
+                {
+                    type: '分类四',
+                    value: 15,
+                },
+                {
+                    type: '分类五',
+                    value: 10,
+                },
+                {
+                    type: '其它',
+                    value: 5,
+                },
+            ]
+        }
     },
     mounted () {
-        this.getData()
+        this.rangePlot().render()
+        this.wordCloudPlot().render()
+        this.gaugePlot().render()
+        this.rosePlot().render()
     },
-    activated() {
-    },
-    computed: {},
-    watch: {},
     methods: {
-        getData () {
-            // 象形柱图
-            const pictorialChart = this.$refs.pictorial
-            // 表盘
-            const gaugeChart = this.$refs.gauge
-            // 折线图
-            const lineChart = this.$refs.line
-            // 饼图
-            const barChart = this.$refs.bar
-
-            if (pictorialChart) {
-                const pictorial = echarts.init(
-                    document.getElementById('pictorial')
-                )
-                const category = []
-                let dottedBase = +new Date()
-                const lineData = []
-                const barData = []
-
-                for (let i = 0; i < 20; i++) {
-                    const date = new Date(dottedBase += 3600 * 24 * 1000);
-                    category.push([
-                        date.getFullYear(),
-                        date.getMonth() + 1,
-                        date.getDate()
-                    ].join('-'));
-                    let b = Math.random() * 200;
-                    let d = Math.random() * 200;
-                    barData.push(b)
-                    lineData.push(d + b);
-                }
-                const pictorialOption = {
-                    backgroundColor: '#0f375f',
-                    tooltip: {
-                        trigger: 'axis',
-                        axisPointer: {
-                            type: 'shadow'
-                        }
+        rangePlot () {
+            return (
+                new G2Plot.RangeColumn(document.getElementById('rangeDom'), {
+                    data: this.rangeData,
+                    xField: 'type',
+                    yField: 'values',
+                    color: 'l(90) 0:#3e5bdb 1:#b4d9e4',
+                    columnStyle: {
+                        fillOpacity: 0.8,
                     },
-                    legend: {
-                        data: ['line', 'bar'],
-                        textStyle: {
-                            color: '#ccc'
-                        }
-                    },
-                    xAxis: {
-                        data: category,
-                        axisLine: {
-                            lineStyle: {
-                                color: '#ccc'
-                            }
-                        }
-                    },
-                    yAxis: {
-                        splitLine: {show: false},
-                        axisLine: {
-                            lineStyle: {
-                                color: '#ccc'
-                            }
-                        }
-                    },
-                    series: [{
-                        name: 'line',
-                        type: 'line',
-                        smooth: true,
-                        showAllSymbol: true,
-                        symbol: 'emptyCircle',
-                        symbolSize: 15,
-                        data: lineData
-                    }, {
-                        name: 'bar',
-                        type: 'bar',
-                        barWidth: 10,
-                        itemStyle: {
-                            barBorderRadius: 5,
-                            color: new echarts.graphic.LinearGradient(
-                                0, 0, 0, 1,
-                                [
-                                    {offset: 0, color: '#14c8d4'},
-                                    {offset: 1, color: '#43eec6'}
-                                ]
-                            )
+                    label: {
+                        visible: true,
+                        topStyle: {
+                            fill: '#3e5bdb',
                         },
-                        data: barData
-                    }, {
-                        name: 'line',
-                        type: 'bar',
-                        barGap: '-100%',
-                        barWidth: 10,
-                        itemStyle: {
-                            color: new echarts.graphic.LinearGradient(
-                                0, 0, 0, 1,
-                                [
-                                    {offset: 0, color: 'rgba(20,200,212,0.5)'},
-                                    {offset: 0.2, color: 'rgba(20,200,212,0.2)'},
-                                    {offset: 1, color: 'rgba(20,200,212,0)'}
-                                ]
-                            )
+                        bottomStyle: {
+                            fill: '#b4d9e4',
                         },
-                        z: -12,
-                        data: lineData
-                    }, {
-                        name: 'dotted',
-                        type: 'pictorialBar',
-                        symbol: 'rect',
-                        itemStyle: {
-                            color: '#0f375f'
-                        },
-                        symbolRepeat: true,
-                        symbolSize: [12, 4],
-                        symbolMargin: 1,
-                        z: -10,
-                        data: lineData
-                    }]
-                }
-                pictorial.setOption(pictorialOption)
-                window.addEventListener('resize', function () {
-                    pictorial.resize()
-                })
-            }
-            if (gaugeChart) {
-                const gauge = echarts.init(
-                    document.getElementById('gauge')
-                )
-                const gaugeOption = {
-                    backgroundColor: '#e8ebb8',
-                    series: [
-                        {
-                            name: '回头率',
-                            type: 'gauge',
-                            detail: {formatter: '{value}%'},
-                            data: [{value: 68, name: ''}]
-                        }
-                    ]
-                }
-                gauge.setOption(gaugeOption)
-                window.addEventListener('resize', function () {
-                    gauge.resize()
-                })
-            }
-            if (lineChart) {
-                const line = echarts.init(
-                    document.getElementById('line')
-                )
-                const lineOption = {
-                    backgroundColor: 'skyblue',
-                    xAxis: {
-                        type: 'category',
-                        data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-                    },
-                    yAxis: {
-                        type: 'value'
-                    },
-                    series: [{
-                        data: [120, 200, 150, 80, 70, 110, 130],
-                        type: 'line',
-                        symbol: 'triangle',
-                        symbolSize: 20,
-                        lineStyle: {
-                            color: 'green',
-                            width: 4,
-                            type: 'dashed'
-                        },
-                        itemStyle: {
-                            borderWidth: 3,
-                            borderColor: 'yellow',
-                            color: 'blue'
-                        }
-                    }]
-                }
-                line.setOption(lineOption)
-                window.addEventListener('resize', function () {
-                    line.resize()
-                })
-            }
-            if (barChart) {
-                const bar = echarts.init(
-                    document.getElementById('bar')
-                )
-                const barOption = {
-                    backgroundColor: '#1fedcc',
-                    angleAxis: {
-                        type: 'category',
-                        data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-                    },
-                    radiusAxis: {
-                    },
-                    polar: {
-                    },
-                    series: [{
-                        type: 'bar',
-                        data: [1, 2, 3, 4, 3, 5, 1],
-                        coordinateSystem: 'polar',
-                        name: 'A',
-                        stack: 'a'
-                    }, {
-                        type: 'bar',
-                        data: [2, 4, 6, 1, 3, 2, 1],
-                        coordinateSystem: 'polar',
-                        name: 'B',
-                        stack: 'a'
-                    }, {
-                        type: 'bar',
-                        data: [1, 2, 3, 4, 1, 2, 5],
-                        coordinateSystem: 'polar',
-                        name: 'C',
-                        stack: 'a'
-                    }],
-                    legend: {
-                        show: true,
-                        data: ['A', 'B', 'C']
                     }
-                }
-                bar.setOption(barOption)
-                window.addEventListener('resize', function () {
-                    bar.resize()
                 })
-            }
+            )
+        },
+        wordCloudPlot () {
+            let that = this
+            return (
+                new G2Plot.WordCloud(document.getElementById('wordCloudDom'), {
+                    data: that.wordData,
+                    height: '280',
+                    width: '400',
+                    shape: 'triangle-forward',
+                    forceFit: true,
+                    selected: -1,
+                    wordStyle: {
+                        fontSize: [20, 40],
+                        gridSize: 16,
+                        rotation: [0, 0]
+                    },
+                    onWordCloudClick (item, dimension, evt, fn) {
+                        that.$message({
+                            message: `点击了${item.word}`,
+                            type: 'success'
+                        })
+                    }
+                })
+            )
+        },
+        gaugePlot () {
+            return (
+                new G2Plot.MeterGauge(document.getElementById('gaugeDom'), {
+                    value: 80,
+                    min: 0,
+                    max: 100,
+                    range: [0, 25, 50, 75, 100],
+                    statistic: {
+                        visible: true,
+                        text: 'nice',
+                        color: '#faad14',
+                    },
+                    color: ['#39B8FF', '#52619B', '#43E089', '#C0EDF3']
+                })
+            )
+        },
+        rosePlot () {
+            return (
+                new G2Plot.Rose(document.getElementById('roseDom'), {
+                    forceFit: true,
+                    radius: 1,
+                    data: this.roseData,
+                    radiusField: 'value',
+                    categoryField: 'type',
+                    colorField: 'type',
+                    legend: {
+                        visible: true,
+                        position: 'bottom-center'
+                    },
+                    label: {
+                        visible: true,
+                        type: 'outer',
+                        content: (text) => text.value,
+                    }
+                })
+            )
         }
     }
 }
@@ -267,6 +195,10 @@ export default {
     grid-template-rows: 32% 32% 32%;
     grid-row-gap: 2%;
     grid-column-gap: 1%;
+    div {
+        border: 1px solid #ebeef5;
+        box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
+    }
 }
 .item-1 {
     grid-column: 1/3;
@@ -288,7 +220,5 @@ export default {
     grid-column: 3/4;
     grid-row: 2/4;
     padding: 20px;
-    border: 1px solid #ebeef5;
-    box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
 }
 </style>

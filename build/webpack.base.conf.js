@@ -29,7 +29,7 @@ module.exports = {
     'vuex':'Vuex',
     'vue-router': 'VueRouter',
     'element-ui': 'ElementUI',
-    'echarts': 'echarts'
+    'g2plot': 'G2Plot'
   },
   output: {
     path: config.build.assetsRoot,
