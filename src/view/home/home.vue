@@ -148,7 +148,7 @@ export default {
         gaugePlot () {
             return (
                 new G2Plot.MeterGauge(document.getElementById('gaugeDom'), {
-                    value: 80,
+                    value: 84,
                     min: 0,
                     max: 100,
                     range: [0, 25, 50, 75, 100],
