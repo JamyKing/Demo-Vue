@@ -36,31 +36,14 @@ export default {
                 { type: '分类七', values: [18, 56] },
                 { type: '分类八', values: [18, 34] }
             ],
-            wordData: [{
-                id: 1,
-                word: 'Vue',
-                weight: 100
-            }, {
-                id: 2,
-                word: 'Vuex',
-                weight: 20
-            }, {
-                id: 3,
-                word: 'Element UI',
-                weight: 80
-            }, {
-                id: 4,
-                word: 'Vue-Router',
-                weight: 60
-            }, {
-                id: 5,
-                word: 'g2plot',
-                weight: 20
-            }, {
-                id: 6,
-                word: 'wangeditor',
-                weight: 10
-            }],
+            wordData: [
+                { id: 1, weight: 100, word: 'Vue' },
+                { id: 2, weight: 20, word: 'Vuex' },
+                { id: 3, weight: 80, word: 'Element UI' },
+                { id: 4, weight: 60, word: 'Vue-Router' },
+                { id: 5, weight: 20, word: 'g2plot' },
+                { id: 6, weight: 10, word: 'wangeditor' }
+            ],
             roseData: [
                 {
                     type: '分类一',
