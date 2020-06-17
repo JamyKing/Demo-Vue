@@ -40,7 +40,6 @@ export default {
                 id: 1,
                 word: 'Vue',
                 weight: 100
-
             }, {
                 id: 2,
                 word: 'Vuex',
@@ -48,8 +47,7 @@ export default {
             }, {
                 id: 3,
                 word: 'Element UI',
-                weight: 80,
-
+                weight: 80
             }, {
                 id: 4,
                 word: 'Vue-Router',
@@ -57,8 +55,7 @@ export default {
             }, {
                 id: 5,
                 word: 'g2plot',
-                weight: 20,
-
+                weight: 20
             }, {
                 id: 6,
                 word: 'wangeditor',
@@ -67,28 +64,28 @@ export default {
             roseData: [
                 {
                     type: '分类一',
-                    value: 27,
+                    value: 27
                 },
                 {
                     type: '分类二',
-                    value: 25,
+                    value: 25
                 },
                 {
                     type: '分类三',
-                    value: 18,
+                    value: 18
                 },
                 {
                     type: '分类四',
-                    value: 15,
+                    value: 15
                 },
                 {
                     type: '分类五',
-                    value: 10,
+                    value: 10
                 },
                 {
                     type: '其它',
-                    value: 5,
-                },
+                    value: 5
+                }
             ]
         }
     },
