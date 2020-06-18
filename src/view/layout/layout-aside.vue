@@ -41,7 +41,7 @@ export default {
                 {
                     path: '/test',
                     name: 'test',
-                    label: 'TEST',
+                    label: 'Test',
                     icon: 'brush'
                 },
                 {
