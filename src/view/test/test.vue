@@ -122,7 +122,7 @@ export default {
         subForm () {
             this.$refs['testTable'].validate((valid) => {
                 if (valid) {
-
+                    console.log(this.tableForm.testTable)
                 }
             })
         }
