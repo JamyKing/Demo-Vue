@@ -16,6 +16,8 @@
 
 - [动态加载JS/CSS](http://demo.jianking.vip/#/loadIcon)
 
+- [表格表单校验](http://demo.jianking.vip/#/formVerify)
+
 ![DemoVue](https://raindate.oss-cn-hangzhou.aliyuncs.com/DemoVue/demo-home.png)
 
 ## Build Setup
