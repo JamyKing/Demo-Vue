@@ -36,7 +36,7 @@ export default {
                     path: '/home',
                     name: 'home',
                     label: '首页',
-                    icon: 'eleme'
+                    icon: 'guide'
                 },
                 {
                     path: '/test',
@@ -45,7 +45,7 @@ export default {
                     icon: 'brush'
                 },
                 {
-                    label: '组件',
+                    label: '组件封装',
                     icon: 'present',
                     children: [
                         {
@@ -59,6 +59,18 @@ export default {
                             name: 'loadIcon',
                             label: '动态加载JS/CSS',
                             icon: 'loading'
+                        }
+                    ]
+                },
+                {
+                    label: '插件使用',
+                    icon: 'box',
+                    children: [
+                        {
+                            path: '/formVerify',
+                            name: 'formVerify',
+                            label: '表格表单检验',
+                            icon: 'document-checked'
                         }
                     ]
                 }

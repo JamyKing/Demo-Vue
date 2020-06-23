@@ -28,6 +28,11 @@ export default new VueRouter({
       path: '/loadIcon',
       name: 'loadIcon',
       component: resolve => require(['@/view/component/loadIcon'], resolve),
+    },
+    {
+      path: '/formVerify',
+      name: 'formVerify',
+      component: resolve => require(['@/view/plugin/formVerify'], resolve),
     }
   ]
 })
