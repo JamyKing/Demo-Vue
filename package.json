@@ -11,6 +11,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "vuedraggable": "^2.23.2",
     "wangeditor": "^3.1.1"
   },
   "devDependencies": {

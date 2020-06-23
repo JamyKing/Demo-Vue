@@ -17,14 +17,14 @@
                         </el-form-item>
                     </template>
                 </el-table-column>
-                <el-table-column prop="price" label="成本价格">
+                <el-table-column prop="price" label="成本价格 (￥)">
                     <template slot-scope="scope">
                         <el-form-item :prop="'testTable.' + scope.$index + '.price'" :rules='tableForm.tableRules.price'>
                             <el-input v-model="scope.row.price" placeholder="必填项"></el-input>
                         </el-form-item>
                     </template>
                 </el-table-column>
-                <el-table-column prop="salePrice" label="销售价格">
+                <el-table-column prop="salePrice" label="销售价格 (￥)">
                     <template slot-scope="scope">
                         <el-form-item :prop="'testTable.' + scope.$index + '.salePrice'" :rules='tableForm.tableRules.salePrice'>
                             <el-input v-model="scope.row.salePrice" placeholder="必填项"></el-input>
@@ -32,21 +32,21 @@
                     </template>
                 </el-table-column>
                 <!--                <el-table-column v-if="item.checked.length > 0" :prop="item.name" :label="item.name" v-for="(item, index) in parameter" :key="index"></el-table-column>-->
-                <el-table-column prop="length" label="长(厘米)">
+                <el-table-column prop="length" label="长 (cm)">
                     <template slot-scope="scope">
                         <el-form-item :prop="'testTable.' + scope.$index + '.length'" :rules='tableForm.tableRules.basicPara'>
                             <el-input v-model="scope.row.length" placeholder="非必选"></el-input>
                         </el-form-item>
                     </template>
                 </el-table-column>
-                <el-table-column prop="width" label="宽(厘米)">
+                <el-table-column prop="width" label="宽 (cm)">
                     <template slot-scope="scope">
                         <el-form-item :prop="'testTable.' + scope.$index + '.width'" :rules='tableForm.tableRules.basicPara'>
                             <el-input v-model="scope.row.width" placeholder="非必选"></el-input>
                         </el-form-item>
                     </template>
                 </el-table-column>
-                <el-table-column prop="height" label="高(厘米)">
+                <el-table-column prop="height" label="高 (cm)">
                     <template slot-scope="scope">
                         <el-form-item :prop="'testTable.' + scope.$index + '.height'" :rules='tableForm.tableRules.basicPara'>
                             <el-input v-model="scope.row.height" placeholder="非必选"></el-input>
@@ -85,7 +85,16 @@
                 Loading: false,
                 tableForm: {
                     testTable: [
-                        {}, {}, {}
+                        {
+                            title: '手机',
+                            price: '800',
+                            salePrice: '1688.88',
+                            length: '18',
+                            width: '6',
+                            height: '0.4'
+                        },
+                        {},
+                        {}
                     ],
                     tableRules: {
                         title: [
