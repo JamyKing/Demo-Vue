@@ -8,11 +8,13 @@
                 <el-button type="primary" @click="subForm">提交表单</el-button>
             </el-col>
         </el-row>
-        <el-form :model="tableForm" :rules="tableForm.tableRules" ref="testTable" label-width="0">
-            <el-table :data="tableForm.testTable" border style="width: 100%">
+        <el-form :model="tableForm" ref="testTable" label-width="0">
+            <el-table :data="tableForm.testTable" border style="width: 100%;">
                 <el-table-column prop="title" label="名称">
                     <template slot-scope="scope">
-                        <el-form-item :prop="'testTable.' + scope.$index + '.title'" :rules='tableForm.tableRules.title'>
+                        <el-form-item
+                            :prop="'testTable.' + scope.$index + '.title'"
+                            :rules='tableForm.tableRules.title'>
                             <el-input v-model="scope.row.title" placeholder="必填项"></el-input>
                         </el-form-item>
                     </template>
@@ -82,7 +84,6 @@
                 }, 100)
             }
             return {
-                Loading: false,
                 tableForm: {
                     testTable: [
                         {
