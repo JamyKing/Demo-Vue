@@ -6,6 +6,9 @@
         <div class="item-4" id="roseDom"></div>
         <div class="item-5">
             <el-timeline>
+                <el-timeline-item timestamp="2020/6/23" placement="top" type="success">
+                    <h4>动态表格表单校验</h4>
+                </el-timeline-item>
                 <el-timeline-item timestamp="2020/6/14" placement="top" type="success">
                     <h4>动态加载JS/CSS-组件</h4>
                 </el-timeline-item>
