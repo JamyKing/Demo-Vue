@@ -3,10 +3,10 @@
         <el-col :span="6">
             <h3>选项菜单</h3>
             <draggable
-                    v-model="menus"
-                    class="menus"
-                    :group="{ name: 'people', pull: 'clone', put: false }"
-                    @change="log">
+                v-model="menus"
+                class="menus"
+                :group="{ name: 'people', pull: 'clone', put: false }"
+                @change="log">
                 <div class="drag-item u-f-auto" v-for="element in menus" :key="element.id">
                     <!--轮播图-->
                     <el-image v-if="element.name === 'banner'" :src="element.imgList[0].img" class="image"></el-image>
@@ -22,10 +22,10 @@
         <el-col :span="8">
             <h3>界面布局</h3>
             <draggable
-                    v-model="dataForm"
-                    class="data-form"
-                    group="people"
-                    @change="log">
+                v-model="dataForm"
+                class="data-form"
+                group="people"
+                @change="log">
                 <div class="drag-item u-f-auto" v-for="element in dataForm" :key="element.id">
                     <!--轮播图-->
                     <el-image v-if="element.name === 'banner'" :src="element.imgList[0].img" class="image"></el-image>
@@ -100,7 +100,6 @@ export default {
     methods: {
         log (evt) {
             console.log(evt)
-            console.log('dataForm => ', this.dataForm)
         }
     }
 }
