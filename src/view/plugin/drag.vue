@@ -1,5 +1,5 @@
 <template>
-    <el-row :gutter="30" type="flex" justify="space-around">
+    <el-row :gutter="30" type="flex" justify="center">
         <el-col :span="6">
             <h3>选项菜单</h3>
             <draggable
@@ -9,8 +9,8 @@
                 @change="log">
                 <div class="drag-item u-f-auto" v-for="element in menus" :key="element.id">
                     <!--轮播图-->
-                    <el-image v-if="element.name === 'banner'" :src="element.imgList[0].img" class="image"></el-image>
-                    <!--金刚区-->
+                    <el-image v-if="element.name === 'banner'" :src="element.imgList[0].imgUrl" class="image"></el-image>
+                    <!--tab区-->
                     <div v-if="element.name === 'tab'">
                         <el-tag v-for="(item, index) in element.iconList" :key="index" :type="item.type" class="tags">
                             <i class="iconfont" :class="item.icon" style="font-size: 20px;"></i>
@@ -19,7 +19,7 @@
                 </div>
             </draggable>
         </el-col>
-        <el-col :span="8">
+        <el-col :span="6" :offset="2">
             <h3>界面布局</h3>
             <draggable
                 v-model="dataForm"
@@ -28,7 +28,7 @@
                 @change="log">
                 <div class="drag-item u-f-auto" v-for="element in dataForm" :key="element.id">
                     <!--轮播图-->
-                    <el-image v-if="element.name === 'banner'" :src="element.imgList[0].img" class="image"></el-image>
+                    <el-image v-if="element.name === 'banner'" :src="element.imgList[0].imgUrl" class="image"></el-image>
                     <!--金刚区-->
                     <div v-if="element.name === 'tab'">
                         <el-tag v-for="(item, index) in element.iconList" :key="index" :type="item.type" class="tags">
@@ -56,8 +56,7 @@ export default {
                     name: 'banner',
                     imgList: [
                         {
-                            img: 'xxx',
-                            url: '/pages/index/index'
+                            imgUrl: 'https://raindate.oss-cn-hangzhou.aliyuncs.com/DemoVue/bag.jpg'
                         }
                     ]
                 },
@@ -108,13 +107,13 @@ export default {
 <style lang="scss" scoped>
     .menus {
         margin-top: 30px;
-        border:1px dashed #000;
+        border:1px dashed #000000;
         border-radius: 10px;
     }
     .data-form {
         min-height: 300px;
         margin-top: 30px;
-        border: 1px solid #000000;
+        border: 1px solid #676767;
         border-radius: 10px;
     }
     .drag-item {
@@ -122,7 +121,7 @@ export default {
         cursor: move;
         .image {
             width: 200px;
-            height: 80px;
+            height: 120px;
         }
     }
     .tags {
