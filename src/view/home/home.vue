@@ -6,6 +6,9 @@
         <div class="item-4" id="roseDom"></div>
         <div class="item-5">
             <el-timeline>
+                <el-timeline-item timestamp="2020/6/28" placement="top" type="success">
+                    <h4>菜单拖拽</h4>
+                </el-timeline-item>
                 <el-timeline-item timestamp="2020/6/23" placement="top" type="success">
                     <h4>动态表格表单校验</h4>
                 </el-timeline-item>
@@ -45,7 +48,8 @@ export default {
                 { id: 3, weight: 80, word: 'Element UI' },
                 { id: 4, weight: 60, word: 'Vue-Router' },
                 { id: 5, weight: 20, word: 'g2plot' },
-                { id: 6, weight: 10, word: 'wangeditor' }
+                { id: 6, weight: 10, word: 'wangEditor' },
+                { id: 7, weight: 10, word: 'vueDraggable' }
             ],
             roseData: [
                 {

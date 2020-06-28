@@ -71,6 +71,12 @@ export default {
                             name: 'formVerify',
                             label: '表格表单检验',
                             icon: 'document-checked'
+                        },
+                        {
+                            path: '/drag',
+                            name: 'drag',
+                            label: '菜单拖拽',
+                            icon: 'rank'
                         }
                     ]
                 }

@@ -33,6 +33,11 @@ export default new VueRouter({
       path: '/formVerify',
       name: 'formVerify',
       component: resolve => require(['@/view/plugin/formVerify'], resolve),
+    },
+    {
+      path: '/drag',
+      name: 'drag',
+      component: resolve => require(['@/view/plugin/drag'], resolve),
     }
   ]
 })
