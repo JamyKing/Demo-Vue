@@ -133,7 +133,7 @@ export default {
                     if (i instanceof Array && i) {
                         if (i.length >= this.wordSplit[c].length) {
                             if (this.$refs.input01.length - 1 > c) {
-                                this.$refs.input01[c + 1].focus();
+                                this.$refs.input01[c + 1].querySelector('input').focus()
                             }
                             this.enterSplit[c] = this.enterSplit[c].slice(0, this.wordSplit[c].length)
                         }
