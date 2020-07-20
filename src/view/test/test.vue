@@ -22,10 +22,24 @@
             <el-button type="danger" size="medium">结束</el-button>
         </el-row>
         <el-row class="row-style typing" oncopy="return false;" onpaste="return false;" ncontextmenu="return false;" onselectstart="return false;">
+            <!-- <div class="mask"></div> -->
             <div class="content">
-                <div class="wordpad">
-                    <div class="refer"></div>
-                    <div class="enter"></div>
+                <div class="wordpad" v-for="(items, indexs) in wordSplit" :key="indexs">
+                    <div class="refer">
+                        <span
+                            v-for="(item, index) in items"
+                            :key="index"
+                            :class="{red:item!==WatchWord[indexs][index] && typeof WatchWord[indexs][index]!=='undefined',green:item === WatchWord[indexs][index]}"
+                            >
+                            {{item}}
+                        </span>
+                    </div>
+                    <div ref="input01" class="enter">
+                        <input :class='["inp"+indexs]' v-model="enterSplit[indexs]">
+                        <div class="PositionWord">
+                            <span v-for="(item,index) in WatchWord[indexs]" :key="index" :class="{red:item!==typingList[index]}">{{item}}</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </el-row>
@@ -97,8 +111,49 @@ export default {
     activated() {
     },
     computed: {
+        WatchWord() {
+            var aa = []
+            if (this.enterSplit.length > 0) {
+                this.enterSplit.forEach((i, c, v) => {
+                    if (i.length) {
+                        aa.push(i.split(""))
+                    } else {
+                        aa.push(i)
+                    }
+                })
+            }
+            return aa
+        }
     },
-    watch: {},
+    watch: {
+        WatchWord: {
+            handler(newValue, oldValue) {
+                var ZhunQueLv = [];
+                newValue.forEach((i, c, v) => {
+                    if (i instanceof Array && i) {
+                        if (i.length >= this.wordSplit[c].length) {
+                            if (this.$refs.input01.length - 1 > c) {
+                                this.$refs.input01[c + 1].focus();
+                            }
+                            this.enterSplit[c] = this.enterSplit[c].slice(0, this.wordSplit[c].length)
+                        }
+                        i.forEach((ip, cp, vp) => {
+                            if (ip != this.wordSplit[c][cp]) {
+                                ZhunQueLv.push(ip);
+                            }
+                        })
+                    }
+                });
+                //准确率计算
+                // this.ZQL = (this.enterSplit.join('').length - ZhunQueLv.length) <= 0 ? '0.00' : (((this.enterSplit.join('').length - ZhunQueLv.length) * 100 / this.enterSplit.join('').length).toFixed(2)).toString()
+                // if (this.enterSplit.join('').length >= this.YuanNeiRong.split("").length) { //不去空格
+                //     //当写入完成结束时
+                //     this.DaZiJieShu()
+                // }
+            },
+            deep: true
+        }
+    },
     methods: {
         init () {
             this.time = {
@@ -130,9 +185,68 @@ export default {
 }
 .typing {
     width: 100%;
-    height: 430px;
     overflow: auto;
     border: 1px solid #cccccc;
     border-radius: 10px;
+    .mask {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        z-index: 100;
+        background: rgba(255, 255, 255, .8);
+        padding: 10px;
+        box-sizing: border-box;
+    }
+    .content {
+        height: 400px;
+        overflow-y: scroll;
+        .wordpad {
+            padding: 10px;
+            .refer {
+                letter-spacing: 5PX;
+                text-align: justify;
+                span {
+                    display: inline-block;
+                    font-size: 18px;
+                }
+            }
+            .enter {
+                position: relative;
+                input {
+                    border: none;
+                    font-family: 'Airay', '微软雅黑';
+                    width: 100%;
+                    font-size: 18px;
+                    border-bottom: 1px dashed #424242;
+                    outline: none;
+                    padding: 10px 0;
+                    padding-top: 5px;
+                    letter-spacing: 5PX;
+                    text-align: justify;
+                    caret-color: black;
+                    height: 28px;
+                    margin: 5px 0;
+                    border-radius: 2px;
+                    background: none;
+                }
+                .PositionWord {
+                    display: none;
+                    letter-spacing: 5PX;
+                    text-align: justify;
+                    position: absolute;
+                    top: 5px;
+                    left: 0px;
+                }
+            }
+        }
+    }
+}
+.red {
+    color: red;
+    text-shadow: 1px 1px 5px #ff7171;
+}
+.green {
+    color: #6200ff;
+    text-shadow: 1px 1px 5px #ff7171;
 }
 </style>
