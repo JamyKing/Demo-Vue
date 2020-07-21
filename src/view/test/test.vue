@@ -2,10 +2,7 @@
 <!--    <h1>TEST</h1>-->
     <div>
         <el-row class="row-style">
-            <el-button type="primary" size="medium" plain>数字</el-button>
-            <el-button type="primary" size="medium" plain>中文</el-button>
-            <el-button type="primary" size="medium" plain>英文</el-button>
-            <el-select v-model="type" size="medium" placeholder="请选择">
+            <el-select v-model="type" size="medium" placeholder="请选择" :disabled="typingStatus">
                 <el-option
                     v-for="item in typeOptions"
                     :key="item.value"
@@ -13,16 +10,27 @@
                     :value="item.value">
                 </el-option>
             </el-select>
-            <el-input-number v-model="timing" controls-position="right" step-strictly :min="10" :max="60" size="medium"></el-input-number>
+            <el-button @click="wordChange('number')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'number'">数字</el-button>
+            <el-button @click="wordChange('chinese')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'chinese'">中文</el-button>
+            <el-button @click="wordChange('english')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'english'">英文</el-button>
+            <el-input-number v-show="type === 'timing'" v-model="timing" controls-position="right" step-strictly :min="10" :max="60" size="medium"></el-input-number>
         </el-row>
         <el-row class="row-style">
-            <el-button type="success" size="medium">开始</el-button>
-            <el-button type="warning" size="medium">暂停</el-button>
-            <el-button type="primary" size="medium">重新开始</el-button>
-            <el-button type="danger" size="medium">结束</el-button>
+            <el-col :span="10">
+                <el-button @click="begin" type="success" size="medium" :disabled="start">开始</el-button>
+                <el-button @click="suspend" type="warning" size="medium" :disabled="!start">暂停</el-button>
+                <el-button @click="restart" type="primary" size="medium" :disabled="!typingStatus">重新开始</el-button>
+                <el-button @click="finish" type="danger" size="medium" :disabled="!typingStatus">结束</el-button>
+            </el-col>
+            <el-col :span="12">
+                <label class="timeData">时间：{{time.hour}}:{{time.minute}}:{{time.second}}</label>
+                <label class="timeData">速度：{{UserCumputed.speed}} 字/秒</label>
+                <label class="timeData">进度：{{UserCumputed.schedule}}</label>
+                <label class="timeData">正确率：{{accuracy}}%</label>
+            </el-col>
         </el-row>
         <el-row class="row-style typing" oncopy="return false;" onpaste="return false;" ncontextmenu="return false;" onselectstart="return false;">
-            <!-- <div class="mask"></div> -->
+            <div v-show="!start" class="mask"></div>
             <div class="content">
                 <div class="wordpad" v-for="(items, indexs) in wordSplit" :key="indexs">
                     <div class="refer">
@@ -54,6 +62,7 @@ export default {
     data() {
         return {
             type: 'default', // default - 一般训练;  timing - 计时训练;  exam - 考试训练;
+            wordType: 'number', // number - 数字;  english - 英文;    chinese - 中文;
             typeOptions: [{
                 value: 'default',
                 label: '一般训练'
@@ -64,17 +73,21 @@ export default {
                 value: 'exam',
                 label: '考试训练'
             }],
-            timing: 30,
+            typingStatus: false,
+            start: false,
+            timing: 30, // 倒计时间
             time: {
                 hour: '00',
                 minute: '00',
                 second: '00'
             },
+            timer: null,
             splitSize: 60,
-            currentWord: '',
-            wordSplit: [],
-            enterSplit: [],
-            typingList: [],
+            currentWord: '', // 当前训练内容
+            wordSplit: [], // 文章拆分
+            enterSplit: [], // 写入内容拆分
+            typingList: [], // 打字列表
+            accuracy: '0.00', // 正确率
             typeWords: {
                 number: '859435.23489234.234234523.4432432.234324.43200.5675.456543.454345643.456.546543.2245',
                 english: "The past is gone and static. Nothing we can do will change it. Thefuture is before us and dynamic. Everything we do will affect it. " +
@@ -93,14 +106,7 @@ export default {
                     "Life is like a hot bath. It feels good while you’re in it, but the longer you stay in, the more wrinkled you get. " +
                     "Life is too short to wake up in the morning with regrets. So, love the people who treat you right and forget about the ones who do not. " +
                     "People who are serious about the relation are moody as they have devoted a lot that makes them worry about gains and losses. ",
-                chinese: `盼望着，盼望着，东风来了，春天的脚步近了。
-一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。
-小草偷偷地从土里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻悄悄的，草软绵绵的。
-桃树、杏树、梨树，你不让我，我不让你，都开满了花赶趟儿。红的像火，粉的像霞，白的像雪。花里带着甜味儿；闭了眼，树上仿佛已经满是桃儿、杏儿、梨儿。花下成千成百的蜜蜂嗡嗡地闹着，大小的蝴蝶飞来飞去。野花遍地是：杂样儿，有名字的，没名字的，散在草丛里，像眼睛，像星星，还眨呀眨的。
-“吹面不寒杨柳风”，不错的，像母亲的手抚摸着你。风里带来些新翻的泥土的气息，混着青草味儿，还有各种花的香，都在微微润湿的空气里酝酿。鸟儿将窠巢安在繁花嫩叶当中，高兴起来了，呼朋引伴地卖弄清脆的喉咙，唱出宛转的曲子，与轻风流水应和着。牛背上牧童的短笛，这时候也成天嘹亮地响着。
-雨是最寻常的，一下就是三两天。可别恼。看，像牛毛，像花针，像细丝，密密地斜织着，人家屋顶上全笼着一层薄烟。树叶儿却绿得发亮，小草儿也青得逼你的眼。傍晚时候，上灯了，一点点黄晕的光，烘托出一片安静而和平的夜。在乡下，小路上，石桥边，有撑起伞慢慢走着的人，地里还有工作的农民，披着蓑戴着笠。他们的房屋，稀稀疏疏的在雨里静默着。
-天上风筝渐渐多了，地上孩子也多了。城里乡下，家家户户，老老小小，也赶趟儿似的，一个个都出来了。舒活舒活筋骨，抖擞抖擞精神，各做各的一份事去。“一年之计在于春”，刚起头儿，有的是工夫，有的是希望。
-春天像刚落地的娃娃，从头到脚都是新的，它生长着。春天像小姑娘，花枝招展的，笑着，走着。春天像健壮的青年，有铁一般的胳膊和腰脚，领着我们上前去。`
+                chinese: `盼望着，盼望着，东风来了，春天的脚步近了。一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。小草偷偷地从土里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻悄悄的，草软绵绵的。桃树、杏树、梨树，你不让我，我不让你，都开满了花赶趟儿。红的像火，粉的像霞，白的像雪。花里带着甜味儿；闭了眼，树上仿佛已经满是桃儿、杏儿、梨儿。花下成千成百的蜜蜂嗡嗡地闹着，大小的蝴蝶飞来飞去。野花遍地是：杂样儿，有名字的，没名字的，散在草丛里，像眼睛，像星星，还眨呀眨的。“吹面不寒杨柳风”，不错的，像母亲的手抚摸着你。风里带来些新翻的泥土的气息，混着青草味儿，还有各种花的香，都在微微润湿的空气里酝酿。鸟儿将窠巢安在繁花嫩叶当中，高兴起来了，呼朋引伴地卖弄清脆的喉咙，唱出宛转的曲子，与轻风流水应和着。牛背上牧童的短笛，这时候也成天嘹亮地响着。雨是最寻常的，一下就是三两天。可别恼。看，像牛毛，像花针，像细丝，密密地斜织着，人家屋顶上全笼着一层薄烟。树叶儿却绿得发亮，小草儿也青得逼你的眼。傍晚时候，上灯了，一点点黄晕的光，烘托出一片安静而和平的夜。在乡下，小路上，石桥边，有撑起伞慢慢走着的人，地里还有工作的农民，披着蓑戴着笠。他们的房屋，稀稀疏疏的在雨里静默着。天上风筝渐渐多了，地上孩子也多了。城里乡下，家家户户，老老小小，也赶趟儿似的，一个个都出来了。舒活舒活筋骨，抖擞抖擞精神，各做各的一份事去。“一年之计在于春”，刚起头儿，有的是工夫，有的是希望。春天像刚落地的娃娃，从头到脚都是新的，它生长着。春天像小姑娘，花枝招展的，笑着，走着。春天像健壮的青年，有铁一般的胳膊和腰脚，领着我们上前去。`
             }
         }
     },
@@ -123,12 +129,18 @@ export default {
                 })
             }
             return aa
+        },
+        UserCumputed() {
+            return ({
+                speed: this.enterSplit.join('').length <= 0 || (this.time.hour - 0) * 120 + (this.time.minute - 0) * 60 + (this.time.second - 0) <= 0 ? "0" : Math.round((this.enterSplit.join('').length / ((this.time.hour - 0) * 120 + (this.time.minute - 0) * 60 + (this.time.second - 0))) * 60),
+                schedule: this.currentWord.length <= 0 ? "0.00%" : ((Math.round(this.enterSplit.join('').length / this.currentWord.length * 10000) / 100.00).toFixed(2) + "%")
+            })
         }
     },
     watch: {
         WatchWord: {
             handler(newValue, oldValue) {
-                var ZhunQueLv = [];
+                const proper = []
                 newValue.forEach((i, c, v) => {
                     if (i instanceof Array && i) {
                         if (i.length >= this.wordSplit[c].length) {
@@ -139,14 +151,14 @@ export default {
                         }
                         i.forEach((ip, cp, vp) => {
                             if (ip != this.wordSplit[c][cp]) {
-                                ZhunQueLv.push(ip);
+                                proper.push(ip)
                             }
                         })
                     }
-                });
-                //准确率计算
-                // this.ZQL = (this.enterSplit.join('').length - ZhunQueLv.length) <= 0 ? '0.00' : (((this.enterSplit.join('').length - ZhunQueLv.length) * 100 / this.enterSplit.join('').length).toFixed(2)).toString()
-                // if (this.enterSplit.join('').length >= this.YuanNeiRong.split("").length) { //不去空格
+                })
+                // 准确率计算
+                this.accuracy = (this.enterSplit.join('').length - proper.length) <= 0 ? '0.00' : (((this.enterSplit.join('').length - proper.length) * 100 / this.enterSplit.join('').length).toFixed(2)).toString()
+                // if (this.enterSplit.join('').length >= this.currentWord.split("").length) { //不去空格
                 //     //当写入完成结束时
                 //     this.DaZiJieShu()
                 // }
@@ -174,6 +186,99 @@ export default {
                 this.wordSplit.push(this.typingList)
                 this.enterSplit.push([])
             }
+        },
+        wordChange (value) {
+            this.wordType = value
+            this.currentWord = this.typeWords[value]
+            switch (value) {
+                case 'number':
+                    this.splitSize = 60
+                    break
+                case 'chinese':
+                    this.splitSize = 40
+                    break
+                case 'english':
+                    this.splitSize = 79
+                    break
+            }
+            this.init()
+        },
+        timeBegin () {
+            const { start, time } = this
+            if (start) {
+                time.second - 0
+                if (time.second < 9) {
+                    time.second ++
+                    time.second = '0' + time.second
+                } else {
+                    time.second ++
+                }
+                if (time.second >= 61) {
+                    time.minute - 0
+                    time.second = '0' + 1
+                    if (time.minute < 9) {
+                        time.minute ++
+                        time.minute = '0' + time.minute
+                    } else {
+                        time.minute ++
+                    }
+                }
+                if (time.minute >= 61) {
+                    time.hour - 0
+                    time.minute = '0' + 1
+                    if (time.hour < 9) {
+                        time.hour ++
+                        time.hour = '0' + time.hour
+                    } else {
+                        time.hour ++
+                    }
+                }
+            } else {
+                clearTimeout(this.timer)
+            }
+        },
+        begin () {
+            this.typingStatus = true
+            this.start = true
+            this.$refs.input01[0].querySelector('input').focus()
+            this.timer = setInterval(this.timeBegin, 1000)
+        },
+        suspend () {
+            this.start = false
+        },
+        restart () {
+            clearTimeout(this.timer)
+            this.start = true
+            this.time = {
+                hour: '00',
+                minute: '00',
+                second: '00'
+            }
+            this.accuracy = '0.00'
+            this.$refs.input01[0].querySelector('input').focus()
+            this.enterSplit.forEach((ele, i) => {
+                this.enterSplit[i] = []
+            })
+            this.WatchWord.forEach((ele, i) => {
+                this.WatchWord[i] = []
+            })
+            this.$nextTick(() => {
+                this.timer = setInterval(this.timeBegin, 1000)
+            })
+        },
+        finish () {
+            this.start = false
+            this.typingStatus = false
+            clearTimeout(this.timer)
+            this.$alert(
+                `<div><span>打字时间：</span><b style="color:#ff5151;">${this.time.hour}:${this.time.minute}:${this.time.second}</b></div>
+                <div><span>打字速度：</span><b style="color:#ff5151;">${this.UserCumputed.speed}字/秒</b></div>
+                <div><span>正确率：</span><b style="color:#ff5151;">${this.accuracy}%</b></div>`, 
+                '训练结束', {
+                dangerouslyUseHTMLString: true,
+                confirmButtonText: '确定',
+                center: true
+            })
         }
     }
 }
@@ -182,6 +287,10 @@ export default {
 <style lang="scss" scoped>
 .row-style {
     margin: 10px 0;
+    .timeData {
+        line-height: 2.5;
+        font-weight: bold;
+    }
 }
 .typing {
     width: 100%;
