@@ -236,9 +236,9 @@ export default {
                 } else {
                     time.second ++
                 }
-                if (time.second >= 61) {
+                if (time.second >= 60) {
                     time.minute - 0
-                    time.second = '0' + 1
+                    time.second = '00'
                     if (time.minute < 9) {
                         time.minute ++
                         time.minute = '0' + time.minute
@@ -246,9 +246,9 @@ export default {
                         time.minute ++
                     }
                 }
-                if (time.minute >= 61) {
+                if (time.minute >= 60) {
                     time.hour - 0
-                    time.minute = '0' + 1
+                    time.minute = '00'
                     if (time.hour < 9) {
                         time.hour ++
                         time.hour = '0' + time.hour
