@@ -13,12 +13,12 @@
             <el-button @click="wordChange('number')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'number'">数字</el-button>
             <el-button @click="wordChange('chinese')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'chinese'">中文</el-button>
             <el-button @click="wordChange('english')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'english'">英文</el-button>
-            <el-input-number v-show="type === 'timing'" v-model="timing" controls-position="right" step-strictly :min="10" :max="60" size="medium"></el-input-number>
+            <el-input-number @change="timeChoose" v-show="type === 'timing'" v-model="timing" controls-position="right" step-strictly :min="10" :max="60" :step="10" size="medium"></el-input-number>
         </el-row>
         <el-row class="row-style">
             <el-col :span="10">
                 <el-button @click="begin" type="success" size="medium" :disabled="start">开始</el-button>
-                <el-button @click="suspend" type="warning" size="medium" :disabled="!start">暂停</el-button>
+                <el-button @click="suspend" v-show="type === 'default'" type="warning" size="medium" :disabled="!start">暂停</el-button>
                 <el-button @click="restart" type="primary" size="medium" :disabled="!typingStatus">重新开始</el-button>
                 <el-button @click="finish" type="danger" size="medium" :disabled="!typingStatus">结束</el-button>
             </el-col>
@@ -124,6 +124,18 @@ export default {
             }
         })
     },
+    directives: {
+        //自定义聚焦指令
+        focus: {
+            inserted: function(el, {
+                value
+            }) {
+                if (el.className == 'inp' + value) {
+                    el.focus()
+                }
+            }
+        }
+    },
     computed: {
         WatchWord() {
             var aa = []
@@ -211,6 +223,9 @@ export default {
             }
             this.init()
         },
+        timeChoose (value) {
+            this.time.minute = value
+        },
         timeBegin () {
             const { start, time } = this
             if (start) {
@@ -245,11 +260,52 @@ export default {
                 clearTimeout(this.timer)
             }
         },
+        countDown () {
+            const { time } = this
+            // 秒
+            let secondTemp = Number(time.second)
+            if (secondTemp) {
+                secondTemp --
+                time.second = secondTemp < 11 ? '0' + secondTemp : secondTemp
+                return
+            }
+            // 分
+            let minuteTemp = Number(time.minute)
+            if (minuteTemp) {
+                minuteTemp --
+                time.minute = minuteTemp < 11 ? '0' + minuteTemp : minuteTemp
+                time.second = 59
+                return
+            }
+            // 时
+            let hourTemp = Number(time.hour)
+            if (hourTemp) {
+                hourTemp --
+                time.hour = hourTemp < 11 ? '0' + hourTemp : hourTemp
+                time.minute = 59
+            }
+        },
         begin () {
             this.typingStatus = true
             this.start = true
             this.$refs.input01[0].querySelector('input').focus()
-            this.timer = setInterval(this.timeBegin, 1000)
+            switch (this.type) {
+                case 'default':
+                    this.timer = setInterval(this.timeBegin, 1000)
+                    break
+                case 'timing':
+                    this.time.minute = this.timing
+                    this.timer = setInterval(this.countDown, 1000)
+                    break
+                case 'exam':
+                    this.time = {
+                        hour: '01',
+                        minute: '30',
+                        second: '00'
+                    }
+                    this.timer = setInterval(this.countDown, 1000)
+                    break
+            }
         },
         suspend () {
             this.start = false
@@ -285,7 +341,15 @@ export default {
                 '训练结束', {
                 dangerouslyUseHTMLString: true,
                 confirmButtonText: '确定',
-                center: true
+                center: true,
+                callback: () => {
+                    this.time = {
+                        hour: '00',
+                        minute: '00',
+                        second: '00'
+                    }
+                    this.accuracy = '0.00'
+                }
             })
         }
     }
