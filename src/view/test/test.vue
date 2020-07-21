@@ -39,7 +39,7 @@
                             :key="index"
                             :class="{red:item!==WatchWord[indexs][index] && typeof WatchWord[indexs][index]!=='undefined',green:item === WatchWord[indexs][index]}"
                             >
-                            {{item}}
+                            {{item === ' ' ? '&nbsp;' : item}}
                         </span>
                     </div>
                     <div ref="input01" class="enter">
@@ -166,10 +166,10 @@ export default {
                 })
                 // 准确率计算
                 this.accuracy = (this.enterSplit.join('').length - proper.length) <= 0 ? '0.00' : (((this.enterSplit.join('').length - proper.length) * 100 / this.enterSplit.join('').length).toFixed(2)).toString()
-                // if (this.enterSplit.join('').length >= this.currentWord.split("").length) { //不去空格
-                //     //当写入完成结束时
-                //     this.DaZiJieShu()
-                // }
+                if (this.enterSplit.join('').length >= this.currentWord.split("").length) { //不去空格
+                    //当写入完成结束时
+                    this.finish()
+                }
             },
             deep: true
         }
@@ -200,13 +200,13 @@ export default {
             this.currentWord = this.typeWords[value]
             switch (value) {
                 case 'number':
-                    this.splitSize = 60
+                    this.splitSize = 65
                     break
                 case 'chinese':
                     this.splitSize = 40
                     break
                 case 'english':
-                    this.splitSize = 79
+                    this.splitSize = 70
                     break
             }
             this.init()
