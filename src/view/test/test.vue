@@ -24,7 +24,7 @@
             </el-col>
             <el-col :span="12">
                 <label class="timeData">时间：{{time.hour}}:{{time.minute}}:{{time.second}}</label>
-                <label class="timeData">速度：{{UserCumputed.speed}} 字/分钟</label>
+                <!-- <label class="timeData">速度：{{UserCumputed.speed}} 字/分钟</label> -->
                 <label class="timeData">进度：{{UserCumputed.schedule}}</label>
                 <label class="timeData">正确率：{{accuracy}}%</label>
             </el-col>
@@ -115,14 +115,14 @@ export default {
         this.init()
     },
     mounted() {
-        this.$nextTick(() => {
-            document.oncontextmenu = function(evt) {
-                evt.preventDefault()
-            }
-            document.onselectstart = function(evt) {
-                evt.preventDefault()
-            }
-        })
+        // this.$nextTick(() => {
+        //     document.oncontextmenu = function(evt) {
+        //         evt.preventDefault()
+        //     }
+        //     document.onselectstart = function(evt) {
+        //         evt.preventDefault()
+        //     }
+        // })
     },
     directives: {
         //自定义聚焦指令
@@ -138,17 +138,17 @@ export default {
     },
     computed: {
         WatchWord() {
-            var aa = []
+            var array = []
             if (this.enterSplit.length > 0) {
                 this.enterSplit.forEach((i, c, v) => {
                     if (i.length) {
-                        aa.push(i.split(""))
+                        array.push(i.split(""))
                     } else {
-                        aa.push(i)
+                        array.push(i)
                     }
                 })
             }
-            return aa
+            return array
         },
         UserCumputed() {
             return ({
@@ -283,7 +283,10 @@ export default {
                 hourTemp --
                 time.hour = hourTemp < 11 ? '0' + hourTemp : hourTemp
                 time.minute = 59
+                return
             }
+            // 时、分、秒 全为0，则倒计时结束
+            this.finish()
         },
         begin () {
             this.typingStatus = true
@@ -362,6 +365,7 @@ export default {
     .timeData {
         line-height: 2.5;
         font-weight: bold;
+        margin-right: 10px;
     }
 }
 .typing {
