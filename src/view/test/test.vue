@@ -24,7 +24,7 @@
             </el-col>
             <el-col :span="12">
                 <label class="timeData">时间：{{time.hour}}:{{time.minute}}:{{time.second}}</label>
-                <label class="timeData">速度：{{UserCumputed.speed}} 字/秒</label>
+                <label class="timeData">速度：{{UserCumputed.speed}} 字/分钟</label>
                 <label class="timeData">进度：{{UserCumputed.schedule}}</label>
                 <label class="timeData">正确率：{{accuracy}}%</label>
             </el-col>
@@ -114,7 +114,15 @@ export default {
         this.currentWord = this.typeWords.number
         this.init()
     },
-    activated() {
+    mounted() {
+        this.$nextTick(() => {
+            document.oncontextmenu = function(evt) {
+                evt.preventDefault()
+            }
+            document.onselectstart = function(evt) {
+                evt.preventDefault()
+            }
+        })
     },
     computed: {
         WatchWord() {
@@ -272,7 +280,7 @@ export default {
             clearTimeout(this.timer)
             this.$alert(
                 `<div><span>打字时间：</span><b style="color:#ff5151;">${this.time.hour}:${this.time.minute}:${this.time.second}</b></div>
-                <div><span>打字速度：</span><b style="color:#ff5151;">${this.UserCumputed.speed}字/秒</b></div>
+                <div><span>打字速度：</span><b style="color:#ff5151;">${this.UserCumputed.speed}字/分钟</b></div>
                 <div><span>正确率：</span><b style="color:#ff5151;">${this.accuracy}%</b></div>`, 
                 '训练结束', {
                 dangerouslyUseHTMLString: true,
