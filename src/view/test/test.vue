@@ -10,9 +10,9 @@
                     :value="item.value">
                 </el-option>
             </el-select>
-            <el-button @click="wordChange('number')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'number'">数字</el-button>
             <el-button @click="wordChange('chinese')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'chinese'">中文</el-button>
             <el-button @click="wordChange('english')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'english'">英文</el-button>
+            <el-button @click="wordChange('number')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'number'">数字</el-button>
             <el-input-number @change="timeChoose" v-show="type === 'timing'" v-model="timing" controls-position="right" step-strictly :min="1" :max="60" size="medium"></el-input-number>
         </el-row>
         <el-row class="row-style">
@@ -62,7 +62,7 @@ export default {
     data() {
         return {
             type: 'default', // default - 一般训练;  timing - 计时训练;  exam - 考试训练;
-            wordType: 'number', // number - 数字;  english - 英文;    chinese - 中文;
+            wordType: 'chinese', // chinese - 中文;   english - 英文;  number - 数字;  
             typeOptions: [{
                 value: 'default',
                 label: '一般训练'
@@ -111,7 +111,7 @@ export default {
         }
     },
     created() {
-        this.currentWord = this.typeWords.number
+        this.currentWord = this.typeWords.chinese
         this.init()
     },
     mounted() {
