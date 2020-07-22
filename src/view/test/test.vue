@@ -2,7 +2,7 @@
 <!--    <h1>TEST</h1>-->
     <div>
         <el-row class="row-style">
-            <el-select v-model="type" size="medium" placeholder="请选择" :disabled="typingStatus">
+            <el-select v-model="type" size="medium" placeholder="请选择训练模式" :disabled="typingStatus">
                 <el-option
                     v-for="item in typeOptions"
                     :key="item.value"
@@ -14,6 +14,16 @@
             <el-button @click="wordChange('english')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'english'">英文</el-button>
             <el-button @click="wordChange('number')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'number'">数字</el-button>
             <el-input-number @change="timeChoose" v-show="type === 'timing'" v-model="timing" controls-position="right" step-strictly :min="1" :max="60" size="medium"></el-input-number>
+        </el-row>
+        <el-row class="row-style">
+            <el-select @change="init" v-model="currentWord" size="medium" placeholder="请选择文章" :disabled="typingStatus">
+                <el-option
+                    v-for="item in wordsOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                </el-option>
+            </el-select>
         </el-row>
         <el-row class="row-style">
             <el-col :span="10">
@@ -88,30 +98,43 @@ export default {
             enterSplit: [], // 写入内容拆分
             typingList: [], // 打字列表
             accuracy: '0.00', // 正确率
-            typeWords: {
-                number: '859435.23489234.234234523.4432432.234324.43200.5675.456543.454345643.456.546543.2245',
-                english: "The past is gone and static. Nothing we can do will change it. Thefuture is before us and dynamic. Everything we do will affect it. " +
-                    "You laugh at me for being different, but I laugh at you for being the same. " +
-                    "The consequences of today are determined by the actions of the past. To change your future, alter your decisions today. " +
-                    "Experience is a hard teacher because she gives the test first, the lesson afterwards. " +
-                    "Ability may get you to the top, but it takes character to keep you there. " +
-                    "Life is not measured by the number of breaths we take, but by the moments that take our breath away." +
-                    "I have a simple philosophy: Fill what's empty. Empty what's full. Scratch where it itches. " +
-                    "Don't go around saying the world owes you a living. The world owes you nothing. It was here first. " +
-                    "Being happy doesn't mean that everything is perfect. It means that you've decided to look beyond the imperfections. " +
-                    "Do not pray for tasks equal to your powers.Pray for powers equal to your tasks.Then the doing of work shall be no miracle,but you shall be the miracle. " +
-                    "Fear not that the life shall come to an end, but rather fear that it shall never have a beginning. " +
-                    "At twenty years of age, the will reigns; at thirty, the wit; and at forty, the judgment. " +
-                    "What gets us into trouble is not what we don't know.It's what we know for sure that just ain't so. " +
-                    "Life is like a hot bath. It feels good while you’re in it, but the longer you stay in, the more wrinkled you get. " +
-                    "Life is too short to wake up in the morning with regrets. So, love the people who treat you right and forget about the ones who do not. " +
-                    "People who are serious about the relation are moody as they have devoted a lot that makes them worry about gains and losses. ",
-                chinese: `盼望着，盼望着，东风来了，春天的脚步近了。一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。小草偷偷地从土里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻悄悄的，草软绵绵的。桃树、杏树、梨树，你不让我，我不让你，都开满了花赶趟儿。红的像火，粉的像霞，白的像雪。花里带着甜味儿；闭了眼，树上仿佛已经满是桃儿、杏儿、梨儿。花下成千成百的蜜蜂嗡嗡地闹着，大小的蝴蝶飞来飞去。野花遍地是：杂样儿，有名字的，没名字的，散在草丛里，像眼睛，像星星，还眨呀眨的。“吹面不寒杨柳风”，不错的，像母亲的手抚摸着你。风里带来些新翻的泥土的气息，混着青草味儿，还有各种花的香，都在微微润湿的空气里酝酿。鸟儿将窠巢安在繁花嫩叶当中，高兴起来了，呼朋引伴地卖弄清脆的喉咙，唱出宛转的曲子，与轻风流水应和着。牛背上牧童的短笛，这时候也成天嘹亮地响着。雨是最寻常的，一下就是三两天。可别恼。看，像牛毛，像花针，像细丝，密密地斜织着，人家屋顶上全笼着一层薄烟。树叶儿却绿得发亮，小草儿也青得逼你的眼。傍晚时候，上灯了，一点点黄晕的光，烘托出一片安静而和平的夜。在乡下，小路上，石桥边，有撑起伞慢慢走着的人，地里还有工作的农民，披着蓑戴着笠。他们的房屋，稀稀疏疏的在雨里静默着。天上风筝渐渐多了，地上孩子也多了。城里乡下，家家户户，老老小小，也赶趟儿似的，一个个都出来了。舒活舒活筋骨，抖擞抖擞精神，各做各的一份事去。“一年之计在于春”，刚起头儿，有的是工夫，有的是希望。春天像刚落地的娃娃，从头到脚都是新的，它生长着。春天像小姑娘，花枝招展的，笑着，走着。春天像健壮的青年，有铁一般的胳膊和腰脚，领着我们上前去。`
-            }
+            wordsOptions: [],
+            chineses: [
+                {
+                    label: '春天到了',
+                    type: 'chinese',
+                    value: '盼望着，盼望着，东风来了，春天的脚步近了。一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。小草偷偷地从土里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻悄悄的，草软绵绵的。桃树、杏树、梨树，你不让我，我不让你，都开满了花赶趟儿。红的像火，粉的像霞，白的像雪。花里带着甜味儿；闭了眼，树上仿佛已经满是桃儿、杏儿、梨儿。花下成千成百的蜜蜂嗡嗡地闹着，大小的蝴蝶飞来飞去。野花遍地是：杂样儿，有名字的，没名字的，散在草丛里，像眼睛，像星星，还眨呀眨的。'
+                },
+                {
+                    label: '勇敢的人生',
+                    type: 'chinese',
+                    value: '在工作中，你是否有过这样的感受：你平时尽职尽责，任劳任怨，就因为无意做错了一件小事，就被领导全盘否定。你待人宽厚，善良，不计较，但就因为无心说错了一句话，就被同事怀恨在心。甚至你加班熬夜，好不容易做出来的方案，却因为客户的过度挑剔，而毁于一旦。你时常觉得上班很累，不仅因为压力大，任务重，担子沉，还因为这里勾心斗角，尔虞我诈，明争暗斗等等，让你感到力不从心。你曾以为，就自己很苦，很忙，很疲惫，但你不知道的是，这个世界，还有更多的人，过得比你还辛苦，但都在负重前行，咬牙坚持。你曾以为，换一个地方就好了，换一个环境就对了，换一批人就轻松了。但你不知道的是，其实到哪儿都要面对该有的困难和挫折。'
+                }
+            ],
+            englishs: [
+                {
+                    label: 'The past',
+                    type: 'english',
+                    value: 'The past is gone and static. Nothing we can do will change it. Thefuture is before us and dynamic. Everything we do will affect it. You laugh at me for being different, but I laugh at you for being the same. The consequences of today are determined by the actions of the past. To change your future, alter your decisions today. Experience is a hard teacher because she gives the test first, the lesson afterwards. Ability may get you to the top, but it takes character to keep you there. Life is not measured by the number of breaths we take, but by the moments that take our breath away.'
+                },
+                {
+                    label: 'You Have Only One Life',
+                    type: 'english',
+                    value: 'There are moments in life when you miss someones so much that you just want to pick them from your dreams and hug them for real! Dream what you want to dream; go where you want to go; be what you want to be, because you have only one life and one chance to do all the things you want to do. May you have enough happiness to make you sweet, enough trials to make you strong, enough sorrow to keep you human, enough hope to make you happy? Always put yourself in other is shoes. If you feel that it hurts you, it probably hurts the other person, too. The happiest of people do not necessarily have the best of everything, they just make the most of everything that comes along their way. Happiness lies for those who cry, those who hurt, those who have searched, and those who have tried, for only they can appreciate the importance of people.'
+                }
+            ],
+            numbers: [
+                {
+                    label: '数字集',
+                    type: 'number',
+                    value: '18305.230184.6835.1730.4824.71564170.6310.62063951279.468246.96437.5041.2795.48517037.1461960.3790.5280.4519.6168405286.3961048375.7937456.2749537059635.638960.3743854072.48942706.396758.46249247.275370641970.4683964817.48619369.3957260.59.28.40.17.59274061286'
+                }
+            ]
         }
     },
     created() {
-        this.currentWord = this.typeWords.chinese
+        this.wordsOptions = this.chineses
+        this.currentWord = this.wordsOptions[0].value
         this.init()
     },
     mounted() {
@@ -208,18 +231,21 @@ export default {
         },
         wordChange (value) {
             this.wordType = value
-            this.currentWord = this.typeWords[value]
             switch (value) {
-                case 'number':
-                    this.splitSize = 65
-                    break
                 case 'chinese':
                     this.splitSize = 40
+                    this.wordsOptions = this.chineses
                     break
                 case 'english':
                     this.splitSize = 70
+                    this.wordsOptions = this.englishs
+                    break
+                case 'number':
+                    this.splitSize = 65
+                    this.wordsOptions = this.numbers
                     break
             }
+            this.currentWord = this.wordsOptions[0].value
             this.init()
         },
         timeChoose (value) {
@@ -261,14 +287,12 @@ export default {
         },
         countDown () {
             const { time } = this
-            // 秒
             let secondTemp = Number(time.second)
             if (secondTemp) {
                 secondTemp --
                 time.second = secondTemp < 10 ? '0' + secondTemp : secondTemp
                 return
             }
-            // 分
             let minuteTemp = Number(time.minute)
             if (minuteTemp) {
                 minuteTemp --
@@ -276,7 +300,6 @@ export default {
                 time.second = 59
                 return
             }
-            // 时
             let hourTemp = Number(time.hour)
             if (hourTemp) {
                 hourTemp --
@@ -284,7 +307,6 @@ export default {
                 time.minute = 59
                 return
             }
-            // 时、分、秒 全为0，则倒计时结束
             this.finish()
         },
         begin () {
@@ -422,7 +444,7 @@ export default {
         box-sizing: border-box;
     }
     .content {
-        height: 400px;
+        height: 385px;
         overflow-y: scroll;
         .wordpad {
             padding: 10px;
