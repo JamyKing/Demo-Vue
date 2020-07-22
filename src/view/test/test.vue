@@ -374,7 +374,7 @@ export default {
             }
             // speed: this.enterSplit.join('').length <= 0 || (this.time.hour - 0) * 120 + (this.time.minute - 0) * 60 + (this.time.second - 0) <= 0 ? "0" : Math.round((this.enterSplit.join('').length / ((this.time.hour - 0) * 120 + (this.time.minute - 0) * 60 + (this.time.second - 0))) * 60),
             let enterLength = enterSplit.join('').length
-            let speed = enterLength > 0 ? Math.round(enterLength / (consume * 60)) : 0
+            let speed = enterLength > 0 ? Math.round(enterLength / consume * 60) : 0
             this.$alert(
                 `<div><span>所用时间：</span><b style="color:#ff5151;">${timeTemp.hour}:${timeTemp.minute}:${timeTemp.second}</b></div>
                 <div><span>打字速度：</span><b style="color:#ff5151;">${speed}字/分钟</b></div>
