@@ -42,7 +42,7 @@
                             {{item === ' ' ? '&nbsp;' : item}}
                         </span>
                     </div>
-                    <div ref="input01" class="enter">
+                    <div ref="enterInput" class="enter">
                         <input :class='["inp"+indexs]' v-model="enterSplit[indexs]">
                         <div class="PositionWord">
                             <span v-for="(item,index) in WatchWord[indexs]" :key="index" :class="{red:item!==typingList[index]}">{{item}}</span>
@@ -82,7 +82,7 @@ export default {
                 second: '00'
             },
             timer: null,
-            splitSize: 60,
+            splitSize: 40,
             currentWord: '', // 当前训练内容
             wordSplit: [], // 文章拆分
             enterSplit: [], // 写入内容拆分
@@ -163,8 +163,8 @@ export default {
                 newValue.forEach((i, c, v) => {
                     if (i instanceof Array && i) {
                         if (i.length >= this.wordSplit[c].length) {
-                            if (this.$refs.input01.length - 1 > c) {
-                                this.$refs.input01[c + 1].querySelector('input').focus()
+                            if (this.$refs.enterInput.length - 1 > c) {
+                                this.$refs.enterInput[c + 1].querySelector('input').focus()
                             }
                             this.enterSplit[c] = this.enterSplit[c].slice(0, this.wordSplit[c].length)
                         }
@@ -290,7 +290,7 @@ export default {
         begin () {
             this.typingStatus = true
             this.start = true
-            this.$refs.input01[0].querySelector('input').focus()
+            this.$refs.enterInput[0].querySelector('input').focus()
             switch (this.type) {
                 case 'default':
                     this.timer = setInterval(this.timeBegin, 1000)
@@ -322,7 +322,7 @@ export default {
                 second: '00'
             }
             this.accuracy = '0.00'
-            this.$refs.input01[0].querySelector('input').focus()
+            this.$refs.enterInput[0].querySelector('input').focus()
             this.enterSplit.forEach((ele, i) => {
                 this.enterSplit[i] = []
             })
