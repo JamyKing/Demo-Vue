@@ -389,6 +389,7 @@ export default {
                         minute: '00',
                         second: '00'
                     }
+                    this.currentWord = ''
                     this.accuracy = '0.00'
                 }
             })
