@@ -202,6 +202,7 @@ export default {
                 this.accuracy = (this.enterSplit.join('').length - proper.length) <= 0 ? '0.00' : (((this.enterSplit.join('').length - proper.length) * 100 / this.enterSplit.join('').length).toFixed(2)).toString()
                 if (this.enterSplit.join('').length >= this.currentWord.split("").length) { //不去空格
                     //当写入完成结束时
+                    // TODO
                     this.finish()
                 }
             },
@@ -310,9 +311,17 @@ export default {
             this.finish()
         },
         begin () {
-            this.typingStatus = true
             this.start = true
             this.$refs.enterInput[0].querySelector('input').focus()
+            if (!this.typingStatus) {
+                this.typingStatus = true
+                this.enterSplit.forEach((ele, i) => {
+                    this.enterSplit[i] = []
+                })
+                this.WatchWord.forEach((ele, i) => {
+                    this.WatchWord[i] = []
+                })
+            }
             switch (this.type) {
                 case 'default':
                     this.timer = setInterval(this.timeBegin, 1000)
