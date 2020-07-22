@@ -13,7 +13,7 @@
             <el-button @click="wordChange('number')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'number'">数字</el-button>
             <el-button @click="wordChange('chinese')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'chinese'">中文</el-button>
             <el-button @click="wordChange('english')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'english'">英文</el-button>
-            <el-input-number @change="timeChoose" v-show="type === 'timing'" v-model="timing" controls-position="right" step-strictly :min="10" :max="60" :step="10" size="medium"></el-input-number>
+            <el-input-number @change="timeChoose" v-show="type === 'timing'" v-model="timing" controls-position="right" step-strictly :min="1" :max="60" size="medium"></el-input-number>
         </el-row>
         <el-row class="row-style">
             <el-col :span="10">
@@ -75,7 +75,7 @@ export default {
             }],
             typingStatus: false,
             start: false,
-            timing: 30, // 倒计时间
+            timing: 10, // 倒计时间
             time: {
                 hour: '00',
                 minute: '00',
@@ -152,7 +152,6 @@ export default {
         },
         UserCumputed() {
             return ({
-                speed: this.enterSplit.join('').length <= 0 || (this.time.hour - 0) * 120 + (this.time.minute - 0) * 60 + (this.time.second - 0) <= 0 ? "0" : Math.round((this.enterSplit.join('').length / ((this.time.hour - 0) * 120 + (this.time.minute - 0) * 60 + (this.time.second - 0))) * 60),
                 schedule: this.currentWord.length <= 0 ? "0.00%" : ((Math.round(this.enterSplit.join('').length / this.currentWord.length * 10000) / 100.00).toFixed(2) + "%")
             })
         }
@@ -266,14 +265,14 @@ export default {
             let secondTemp = Number(time.second)
             if (secondTemp) {
                 secondTemp --
-                time.second = secondTemp < 11 ? '0' + secondTemp : secondTemp
+                time.second = secondTemp < 10 ? '0' + secondTemp : secondTemp
                 return
             }
             // 分
             let minuteTemp = Number(time.minute)
             if (minuteTemp) {
                 minuteTemp --
-                time.minute = minuteTemp < 11 ? '0' + minuteTemp : minuteTemp
+                time.minute = minuteTemp < 10 ? '0' + minuteTemp : minuteTemp
                 time.second = 59
                 return
             }
@@ -281,7 +280,7 @@ export default {
             let hourTemp = Number(time.hour)
             if (hourTemp) {
                 hourTemp --
-                time.hour = hourTemp < 11 ? '0' + hourTemp : hourTemp
+                time.hour = hourTemp < 10 ? '0' + hourTemp : hourTemp
                 time.minute = 59
                 return
             }
@@ -306,6 +305,7 @@ export default {
                         minute: '30',
                         second: '00'
                     }
+                    this.timing = 90
                     this.timer = setInterval(this.countDown, 1000)
                     break
             }
@@ -334,13 +334,51 @@ export default {
             })
         },
         finish () {
+            const { type, timing, time, enterSplit, accuracy } = this
             this.start = false
             this.typingStatus = false
             clearTimeout(this.timer)
+            // 计算速度
+            let consume = 0
+            let timeTemp = {
+                hour: '00',
+                minute: '00',
+                second: '00'
+            }
+            if (type === 'default') {
+                consume = Number(time.hour) * 3600 + Number(time.minute) * 60 + Number(time.second)
+                timeTemp = { ...time }
+            } else {
+                // 总时长
+                let minuteTotal = Number(timing) * 60
+                // 剩余时长
+                let minuteSurplus = Number(time.hour) * 3600 + Number(time.minute) * 60 + Number(time.second)
+                // 消耗时长
+                consume = minuteTotal - minuteSurplus
+
+                let timeSum = consume
+                if (timeSum > 3600) {
+                    let hourTemp = Math.floor(timeSum / 3600)
+                    timeTemp.hour = hourTemp < 10 ? '0' + hourTemp : hourTemp
+                    timeSum = timeSum - (hourTemp * 3600)
+                }
+                if (timeSum > 60) {
+                    let minuteTemp = Math.floor(timeSum / 60)
+                    timeTemp.minute = minuteTemp < 10 ? '0' + minuteTemp : minuteTemp
+                    timeSum = timeSum - (minuteTemp * 60)
+                }
+                if (timeSum > 0) {
+                    let secondTemp = timeSum
+                    timeTemp.second = secondTemp < 10 ? '0' + secondTemp : secondTemp
+                }
+            }
+            // speed: this.enterSplit.join('').length <= 0 || (this.time.hour - 0) * 120 + (this.time.minute - 0) * 60 + (this.time.second - 0) <= 0 ? "0" : Math.round((this.enterSplit.join('').length / ((this.time.hour - 0) * 120 + (this.time.minute - 0) * 60 + (this.time.second - 0))) * 60),
+            let enterLength = enterSplit.join('').length
+            let speed = enterLength > 0 ? Math.round(enterLength / (consume * 60)) : 0
             this.$alert(
-                `<div><span>打字时间：</span><b style="color:#ff5151;">${this.time.hour}:${this.time.minute}:${this.time.second}</b></div>
-                <div><span>打字速度：</span><b style="color:#ff5151;">${this.UserCumputed.speed}字/分钟</b></div>
-                <div><span>正确率：</span><b style="color:#ff5151;">${this.accuracy}%</b></div>`, 
+                `<div><span>所用时间：</span><b style="color:#ff5151;">${timeTemp.hour}:${timeTemp.minute}:${timeTemp.second}</b></div>
+                <div><span>打字速度：</span><b style="color:#ff5151;">${speed}字/分钟</b></div>
+                <div><span>正确率：</span><b style="color:#ff5151;">${accuracy}%</b></div>`, 
                 '训练结束', {
                 dangerouslyUseHTMLString: true,
                 confirmButtonText: '确定',
