@@ -47,9 +47,8 @@
                         <span
                             v-for="(item, index) in items"
                             :key="index"
-                            :class="{red:item!==WatchWord[indexs][index] && typeof WatchWord[indexs][index]!=='undefined',green:item === WatchWord[indexs][index]}"
-                            >
-                            {{item === ' ' || item === '↵' ? '&nbsp;' : item}}
+                            :class="{red:item!==WatchWord[indexs][index] && typeof WatchWord[indexs][index]!=='undefined',green:item === WatchWord[indexs][index]}">
+                            {{item === ' ' ? '&nbsp;' : item}}
                         </span>
                     </div>
                     <div ref="enterInput" class="enter">
@@ -69,8 +68,8 @@
             :before-close="customClose">
             <el-input v-model="textArea" type="textarea" :rows="10"></el-input>
             <span slot="footer" class="dialog-footer">
-                <el-button @click="customClose">取 消</el-button>
-                <el-button type="primary" @click="customSubmit">导 入</el-button>
+                <el-button @click="customClose" size="medium">取 消</el-button>
+                <el-button type="primary" @click="customSubmit" size="medium">导 入</el-button>
             </span>
         </el-dialog>
     </div>
@@ -269,7 +268,7 @@ export default {
             this.customVisible = false
         },
         customSubmit() {
-            this.currentWord = this.textArea
+            this.currentWord = this.textArea.replace(/\n/g, ' ')
             this.customVisible = false
             this.init()
             this.$nextTick(() => {
