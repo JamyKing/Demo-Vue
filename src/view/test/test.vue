@@ -268,6 +268,9 @@ export default {
             this.customVisible = false
         },
         customSubmit() {
+            // &apos;----单引号
+            // $#39; ----单引号（兼容IE）
+            // &quot;-----双引号
             this.currentWord = this.textArea.replace(/\n/g, ' ')
             this.customVisible = false
             this.init()
