@@ -2,7 +2,7 @@
 <!--    <h1>TEST</h1>-->
     <div>
         <el-row class="row-style">
-            <el-select v-model="type" size="medium" placeholder="请选择训练模式" :disabled="typingStatus">
+            <el-select v-model="type" size="small" placeholder="请选择训练模式" :disabled="typingStatus">
                 <el-option
                     v-for="item in typeOptions"
                     :key="item.value"
@@ -10,13 +10,13 @@
                     :value="item.value">
                 </el-option>
             </el-select>
-            <el-button @click="wordChange('chinese')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'chinese'">中文</el-button>
-            <el-button @click="wordChange('english')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'english'">英文</el-button>
-            <el-button @click="wordChange('number')" :disabled="typingStatus" type="primary" size="medium" :plain="wordType !== 'number'">数字</el-button>
-            <el-input-number @change="timeChoose" v-show="type === 'timing'" v-model="timing" controls-position="right" step-strictly :min="1" :max="60" size="medium"></el-input-number>
+            <el-button @click="wordChange('chinese')" :disabled="typingStatus" type="primary" size="small" :plain="wordType !== 'chinese'">中文</el-button>
+            <el-button @click="wordChange('english')" :disabled="typingStatus" type="primary" size="small" :plain="wordType !== 'english'">英文</el-button>
+            <el-button @click="wordChange('number')" :disabled="typingStatus" type="primary" size="small" :plain="wordType !== 'number'">数字</el-button>
+            <el-input-number @change="timeChoose" v-show="type === 'timing'" v-model="timing" controls-position="right" step-strictly :min="1" :max="60" size="small"></el-input-number>
         </el-row>
         <el-row class="row-style">
-            <el-select @change="init" v-model="currentWord" size="medium" placeholder="请选择文章" :disabled="typingStatus">
+            <el-select @change="init" v-model="currentWord" size="small" placeholder="请选择文章" :disabled="typingStatus">
                 <el-option
                     v-for="item in wordsOptions"
                     :key="item.value"
@@ -24,14 +24,14 @@
                     :value="item.value">
                 </el-option>
             </el-select>
-            <el-button @click="customVisible = true" size="medium" :disabled="typingStatus">自定义</el-button>
+            <el-button @click="customVisible = true" size="small" :disabled="typingStatus">自定义</el-button>
         </el-row>
         <el-row class="row-style">
             <el-col :span="10">
-                <el-button @click="begin" type="success" size="medium" :disabled="start">开始</el-button>
-                <el-button @click="suspend" v-show="type === 'default'" type="warning" size="medium" :disabled="!start">暂停</el-button>
-                <el-button @click="restart" type="primary" size="medium" :disabled="!typingStatus">重新开始</el-button>
-                <el-button @click="finish" type="danger" size="medium" :disabled="!typingStatus">结束</el-button>
+                <el-button @click="begin" type="success" size="small" :disabled="start">开始</el-button>
+                <el-button @click="suspend" v-show="type === 'default'" type="warning" size="small" :disabled="!start">暂停</el-button>
+                <el-button @click="restart" type="primary" size="small" :disabled="!typingStatus">重新开始</el-button>
+                <el-button @click="finish" type="danger" size="small" :disabled="!typingStatus">结束</el-button>
             </el-col>
             <el-col :span="12">
                 <label class="timeData">时间：{{time.hour}}:{{time.minute}}:{{time.second}}</label>
@@ -49,7 +49,7 @@
                             :key="index"
                             :class="{red:item!==WatchWord[indexs][index] && typeof WatchWord[indexs][index]!=='undefined',green:item === WatchWord[indexs][index]}"
                             >
-                            {{item === ' ' ? '&nbsp;' : item}}
+                            {{item === ' ' || item === '↵' ? '&nbsp;' : item}}
                         </span>
                     </div>
                     <div ref="enterInput" class="enter">
@@ -454,7 +454,7 @@ export default {
 
 <style lang="scss" scoped>
 .row-style {
-    margin: 10px 0;
+    margin: 6px 0;
     .timeData {
         line-height: 2.5;
         font-weight: bold;
