@@ -24,6 +24,7 @@
                     :value="item.value">
                 </el-option>
             </el-select>
+            <el-button @click="customVisible = true" size="medium" :disabled="typingStatus">自定义</el-button>
         </el-row>
         <el-row class="row-style">
             <el-col :span="10">
@@ -34,7 +35,6 @@
             </el-col>
             <el-col :span="12">
                 <label class="timeData">时间：{{time.hour}}:{{time.minute}}:{{time.second}}</label>
-                <!-- <label class="timeData">速度：{{UserCumputed.speed}} 字/分钟</label> -->
                 <label class="timeData">进度：{{UserCumputed.schedule}}</label>
                 <label class="timeData">正确率：{{accuracy}}%</label>
             </el-col>
@@ -61,6 +61,18 @@
                 </div>
             </div>
         </el-row>
+        <el-dialog
+            :title="`自定义-${wordType}`"
+            width="60%"
+            :visible.sync="customVisible"
+            :close-on-click-modal="false"
+            :before-close="customClose">
+            <el-input v-model="textArea" type="textarea" :rows="10"></el-input>
+            <span slot="footer" class="dialog-footer">
+                <el-button @click="customClose">取 消</el-button>
+                <el-button type="primary" @click="customSubmit">导 入</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -72,7 +84,7 @@ export default {
     data() {
         return {
             type: 'default', // default - 一般训练;  timing - 计时训练;  exam - 考试训练;
-            wordType: 'chinese', // chinese - 中文;   english - 英文;  number - 数字;  
+            wordType: 'chinese', // chinese - 中文;  english - 英文;  number - 数字;  
             typeOptions: [{
                 value: 'default',
                 label: '一般训练'
@@ -129,7 +141,9 @@ export default {
                     type: 'number',
                     value: '18305.230184.6835.1730.4824.71564170.6310.62063951279.468246.96437.5041.2795.48517037.1461960.3790.5280.4519.6168405286.3961048375.7937456.2749537059635.638960.3743854072.48942706.396758.46249247.275370641970.4683964817.48619369.3957260.59.28.40.17.59274061286'
                 }
-            ]
+            ],
+            customVisible: false,
+            textArea: ''
         }
     },
     created() {
@@ -250,6 +264,17 @@ export default {
         },
         timeChoose (value) {
             this.time.minute = value
+        },
+        customClose () {
+            this.customVisible = false
+        },
+        customSubmit() {
+            this.currentWord = this.textArea
+            this.customVisible = false
+            this.init()
+            this.$nextTick(() => {
+                this.textArea = ''
+            })
         },
         timeBegin () {
             const { start, time } = this
