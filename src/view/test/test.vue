@@ -101,7 +101,7 @@ export default {
             wordsOptions: [],
             chineses: [
                 {
-                    label: '春天到了',
+                    label: '春天的脚步近了',
                     type: 'chinese',
                     value: '盼望着，盼望着，东风来了，春天的脚步近了。一切都像刚睡醒的样子，欣欣然张开了眼。山朗润起来了，水涨起来了，太阳的脸红起来了。小草偷偷地从土里钻出来，嫩嫩的，绿绿的。园子里，田野里，瞧去，一大片一大片满是的。坐着，躺着，打两个滚，踢几脚球，赛几趟跑，捉几回迷藏。风轻悄悄的，草软绵绵的。桃树、杏树、梨树，你不让我，我不让你，都开满了花赶趟儿。红的像火，粉的像霞，白的像雪。花里带着甜味儿；闭了眼，树上仿佛已经满是桃儿、杏儿、梨儿。花下成千成百的蜜蜂嗡嗡地闹着，大小的蝴蝶飞来飞去。野花遍地是：杂样儿，有名字的，没名字的，散在草丛里，像眼睛，像星星，还眨呀眨的。'
                 },
@@ -202,7 +202,6 @@ export default {
                 this.accuracy = (this.enterSplit.join('').length - proper.length) <= 0 ? '0.00' : (((this.enterSplit.join('').length - proper.length) * 100 / this.enterSplit.join('').length).toFixed(2)).toString()
                 if (this.enterSplit.join('').length >= this.currentWord.split("").length) { //不去空格
                     //当写入完成结束时
-                    // TODO
                     this.finish()
                 }
             },
@@ -420,7 +419,6 @@ export default {
                         minute: '00',
                         second: '00'
                     }
-                    this.currentWord = ''
                     this.accuracy = '0.00'
                 }
             })
