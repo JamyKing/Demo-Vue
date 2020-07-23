@@ -429,7 +429,6 @@ export default {
                     timeTemp.second = secondTemp < 10 ? '0' + secondTemp : secondTemp
                 }
             }
-            // speed: this.enterSplit.join('').length <= 0 || (this.time.hour - 0) * 120 + (this.time.minute - 0) * 60 + (this.time.second - 0) <= 0 ? "0" : Math.round((this.enterSplit.join('').length / ((this.time.hour - 0) * 120 + (this.time.minute - 0) * 60 + (this.time.second - 0))) * 60),
             let enterLength = enterSplit.join('').length
             let speed = enterLength > 0 ? Math.round(enterLength / consume * 60) : 0
             this.$alert(
