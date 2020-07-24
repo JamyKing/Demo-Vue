@@ -314,23 +314,20 @@ export default {
         },
         countDown () {
             const { time } = this
-            let secondTemp = Number(time.second)
-            if (secondTemp) {
-                secondTemp --
-                time.second = secondTemp < 10 ? '0' + secondTemp : secondTemp
+            if (time.second > 0) {
+                time.second --
+                time.second = time.second < 10 ? '0' + time.second : time.second
                 return
             }
-            let minuteTemp = Number(time.minute)
-            if (minuteTemp) {
-                minuteTemp --
-                time.minute = minuteTemp < 10 ? '0' + minuteTemp : minuteTemp
+            if (time.minute > 0) {
+                time.minute --
+                time.minute = time.minute < 10 ? '0' + time.minute : time.minute
                 time.second = 59
                 return
             }
-            let hourTemp = Number(time.hour)
-            if (hourTemp) {
-                hourTemp --
-                time.hour = hourTemp < 10 ? '0' + hourTemp : hourTemp
+            if (time.hour > 0) {
+                time.hour --
+                time.hour = time.hour < 10 ? '0' + time.hour : time.hour
                 time.minute = 59
                 return
             }
@@ -403,13 +400,13 @@ export default {
                 second: '00'
             }
             if (type === 'default') {
-                consume = Number(time.hour) * 3600 + Number(time.minute) * 60 + Number(time.second)
+                consume = time.hour * 3600 + time.minute * 60 + time.second * 1
                 timeTemp = { ...time }
             } else {
                 // 总时长
-                let minuteTotal = Number(timing) * 60
+                let minuteTotal = timing * 60
                 // 剩余时长
-                let minuteSurplus = Number(time.hour) * 3600 + Number(time.minute) * 60 + Number(time.second)
+                let minuteSurplus = time.hour * 3600 + time.minute * 60 + time.second * 1
                 // 消耗时长
                 consume = minuteTotal - minuteSurplus
 
