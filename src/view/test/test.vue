@@ -393,22 +393,17 @@ export default {
             this.typingStatus = false
             clearTimeout(this.timer)
             // 计算速度
-            let consume = 0
             let timeTemp = {
                 hour: '00',
                 minute: '00',
                 second: '00'
             }
+            let consume = time.hour * 3600 + time.minute * 60 + time.second * 1
             if (type === 'default') {
-                consume = time.hour * 3600 + time.minute * 60 + time.second * 1
                 timeTemp = { ...time }
             } else {
-                // 总时长
-                let minuteTotal = timing * 60
-                // 剩余时长
-                let minuteSurplus = time.hour * 3600 + time.minute * 60 + time.second * 1
                 // 消耗时长
-                consume = minuteTotal - minuteSurplus
+                consume = timing * 60 - consume
 
                 let timeSum = consume
                 if (timeSum > 3600) {
