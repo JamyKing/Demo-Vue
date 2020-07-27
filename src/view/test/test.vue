@@ -406,12 +406,12 @@ export default {
                 consume = timing * 60 - consume
 
                 let timeSum = consume
-                if (timeSum > 3600) {
+                if (timeSum >= 3600) {
                     let hourTemp = Math.floor(timeSum / 3600)
                     timeTemp.hour = hourTemp < 10 ? '0' + hourTemp : hourTemp
                     timeSum = timeSum - (hourTemp * 3600)
                 }
-                if (timeSum > 60) {
+                if (timeSum >= 60) {
                     let minuteTemp = Math.floor(timeSum / 60)
                     timeTemp.minute = minuteTemp < 10 ? '0' + minuteTemp : minuteTemp
                     timeSum = timeSum - (minuteTemp * 60)
