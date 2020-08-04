@@ -8,7 +8,7 @@
         <el-header style="padding: 0;">
           <layout-header></layout-header>
         </el-header>
-        <el-main>
+        <el-main style="padding: 15px;">
           <keep-alive :include="['editor', 'loadIcon']">
             <router-view></router-view>
           </keep-alive>
@@ -43,9 +43,9 @@ export default {
   methods: {
     resetHeight () {
       this.clientHeight = document.documentElement['clientHeight']
-      window.onresize = () => {
-        this.clientHeight = document.documentElement['clientHeight']
-      }
+      // window.onresize = () => {
+      //   this.clientHeight = document.documentElement['clientHeight']
+      // }
     },
   }
 }
