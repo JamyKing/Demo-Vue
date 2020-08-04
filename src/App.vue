@@ -43,9 +43,11 @@ export default {
   methods: {
     resetHeight () {
       this.clientHeight = document.documentElement['clientHeight']
-      // window.onresize = () => {
-      //   this.clientHeight = document.documentElement['clientHeight']
-      // }
+      window.onresize = () => {
+        if (document.documentElement['clientHeight'] > this.clientHeight) {
+          this.clientHeight = document.documentElement['clientHeight']
+        }
+      }
     },
   }
 }
