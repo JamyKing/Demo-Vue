@@ -74,6 +74,33 @@
                 <el-button type="primary" @click="customSubmit" size="medium">导 入</el-button>
             </span>
         </el-dialog>
+        <el-dialog
+            title="成绩结果"
+            width="60%"
+            :visible.sync="resultVisible"
+            :close-on-click-modal="false"
+            :before-close="resultClose">
+            <div style="wdith: 100%;">
+                <div>
+                    <span>所用时间：</span><b style="color:#ff5151;">{{timeTemp.hour}}:{{timeTemp.minute}}:{{timeTemp.second}}</b>
+                </div>
+                <div>
+                    <span>打字速度：</span><b style="color:#ff5151;">{{speed}}字/分钟</b>
+                </div>
+                <div>
+                    <span>退格：</span><b style="color:#ff5151;">{{backspace}}次</b>
+                </div>
+                <div>
+                    <span>正确率：</span><b style="color:#ff5151;">{{accuracy}}%</b>
+                </div>
+                <div>
+                    <el-tag v-for="(item, index) in errorData" :key="index" type="danger" effect="dark">{{item}}</el-tag>
+                </div>
+            </div>
+            <span slot="footer" class="dialog-footer">
+                <el-button type="primary" @click="resultClose" size="medium">确 定</el-button>
+            </span>
+        </el-dialog>
     </div>
 </template>
 
@@ -112,7 +139,15 @@ export default {
             typingList: [], // 打字列表
             accuracy: '0.00', // 正确率
             backspace: 0, // 退格数
+            speed: 0,
+            timeTemp: {
+                hour: '00',
+                minute: '00',
+                second: '00'
+            },
+            errorData: [],
             customVisible: false,
+            resultVisible: false,
             textArea: '',
             wordsOptions: [],
             chineses: [
@@ -436,58 +471,54 @@ export default {
             })
         },
         finish () {
-            const { type, timing, time, enterSplit, accuracy } = this
+            const { type, wordType, timing, time, enterSplit, accuracy } = this
             this.start = false
             this.typingStatus = false
             clearTimeout(this.timer)
             // 计算速度
-            let timeTemp = {
+            this.timeTemp = {
                 hour: '00',
                 minute: '00',
                 second: '00'
             }
             let consume = time.hour * 3600 + time.minute * 60 + time.second * 1
             if (type === 'default') {
-                timeTemp = { ...time }
+                this.timeTemp = { ...time }
             } else {
                 // 消耗时长
                 consume = timing * 60 - consume
-
                 let timeSum = consume
                 if (timeSum >= 3600) {
                     let hourTemp = Math.floor(timeSum / 3600)
-                    timeTemp.hour = hourTemp < 10 ? '0' + hourTemp : hourTemp
+                    this.timeTemp.hour = hourTemp < 10 ? '0' + hourTemp : hourTemp
                     timeSum = timeSum - (hourTemp * 3600)
                 }
                 if (timeSum >= 60) {
                     let minuteTemp = Math.floor(timeSum / 60)
-                    timeTemp.minute = minuteTemp < 10 ? '0' + minuteTemp : minuteTemp
+                    this.timeTemp.minute = minuteTemp < 10 ? '0' + minuteTemp : minuteTemp
                     timeSum = timeSum - (minuteTemp * 60)
                 }
                 if (timeSum > 0) {
                     let secondTemp = timeSum
-                    timeTemp.second = secondTemp < 10 ? '0' + secondTemp : secondTemp
+                    this.timeTemp.second = secondTemp < 10 ? '0' + secondTemp : secondTemp
                 }
             }
             let enterLength = enterSplit.join('').length
-            let speed = enterLength > 0 ? Math.round(enterLength / consume * 60) : 0
-            this.$alert(
-                `<div><span>所用时间：</span><b style="color:#ff5151;">${timeTemp.hour}:${timeTemp.minute}:${timeTemp.second}</b></div>
-                <div><span>打字速度：</span><b style="color:#ff5151;">${speed}字/分钟</b></div>
-                <div><span>正确率：</span><b style="color:#ff5151;">${accuracy}%</b></div>`, 
-                '训练结束', {
-                dangerouslyUseHTMLString: true,
-                confirmButtonText: '确定',
-                center: true,
-                callback: () => {
-                    this.time = {
-                        hour: '00',
-                        minute: '00',
-                        second: '00'
-                    }
-                    this.accuracy = '0.00'
-                }
+            this.speed = enterLength > 0 ? Math.round(enterLength / consume * 60) : 0
+            this.errorData = this.errorCount(wordType)
+            this.$nextTick(() => {
+                this.resultVisible = true
             })
+        },
+        resultClose () {
+            this.resultVisible = false
+            this.time = {
+                hour: '00',
+                minute: '00',
+                second: '00'
+            }
+            this.accuracy = '0.00'
+            this.backspace = 0
         }
     }
 }
