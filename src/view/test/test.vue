@@ -33,9 +33,10 @@
                 <el-button @click="restart" type="primary" size="small" :disabled="!typingStatus">重新开始</el-button>
                 <el-button @click="finish" type="danger" size="small" :disabled="!typingStatus">结束</el-button>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="14">
                 <label class="timeData">时间：{{time.hour}}:{{time.minute}}:{{time.second}}</label>
                 <label class="timeData">进度：{{UserCumputed.schedule}}</label>
+                <label class="timeData">退格：{{backspace}}</label>
                 <label class="timeData">正确率：{{accuracy}}%</label>
             </el-col>
         </el-row>
@@ -109,6 +110,7 @@ export default {
             enterSplit: [], // 写入内容拆分
             typingList: [], // 打字列表
             accuracy: '0.00', // 正确率
+            backspace: 0, // 退格数
             customVisible: false,
             textArea: '',
             wordsOptions: [],
@@ -146,9 +148,16 @@ export default {
         }
     },
     created() {
-        this.wordsOptions = this.chineses
-        this.currentWord = this.wordsOptions[0].value
-        this.init()
+        const that = this
+        that.wordsOptions = that.chineses
+        that.currentWord = that.wordsOptions[0].value
+        that.init()
+        document.onkeydown = function(event) {
+            var event = event || window.event
+            if (that.start && event.keyCode === 8) {
+                that.backspace ++
+            }
+        }
     },
     mounted() {
         // this.$nextTick(() => {
@@ -367,6 +376,43 @@ export default {
         suspend () {
             this.start = false
         },
+        errorCount (value) {
+            const dataList = document.getElementsByClassName('record red')
+            const errorList = []
+            for (let item of dataList) {
+                if (value === 'english') {
+                    let temp = item
+                    let word = temp.innerText
+                    const wordTraverse = function (code) {
+                        if (code === 'pre') {
+                            let preElement = temp.previousElementSibling
+                            if (preElement !== null && preElement.innerText !== ' ') {
+                                word = preElement.innerText + word
+                                temp = preElement
+                                wordTraverse('pre')
+                            } else {
+                                temp = item
+                                wordTraverse('nex')
+                            }
+                        } else {
+                            let nexElement = temp.nextElementSibling
+                            if (nexElement !== null && nexElement.innerText !== ' ') {
+                                word = word + nexElement.innerText
+                                temp = nexElement
+                                wordTraverse('nex')
+                            }
+                        }
+                        
+                    }
+                    wordTraverse('pre')
+                    errorList.push(word)
+                } else {
+                    errorList.push(item.innerText)
+                }
+            }
+            let result = Array.from(new Set(errorList))
+            return result
+        },
         restart () {
             clearTimeout(this.timer)
             this.start = true
@@ -375,6 +421,7 @@ export default {
                 minute: '00',
                 second: '00'
             }
+            this.backspace = 0
             this.accuracy = '0.00'
             this.$refs.enterInput[0].querySelector('input').focus()
             this.enterSplit.forEach((ele, i) => {
