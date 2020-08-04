@@ -76,25 +76,20 @@
         </el-dialog>
         <el-dialog
             title="成绩结果"
-            width="60%"
+            width="50%"
             :visible.sync="resultVisible"
             :close-on-click-modal="false"
             :before-close="resultClose">
-            <div style="wdith: 100%;">
-                <div>
-                    <span>所用时间：</span><b style="color:#ff5151;">{{timeTemp.hour}}:{{timeTemp.minute}}:{{timeTemp.second}}</b>
-                </div>
-                <div>
-                    <span>打字速度：</span><b style="color:#ff5151;">{{speed}}字/分钟</b>
-                </div>
-                <div>
-                    <span>退格：</span><b style="color:#ff5151;">{{backspace}}次</b>
-                </div>
-                <div>
-                    <span>正确率：</span><b style="color:#ff5151;">{{accuracy}}%</b>
-                </div>
-                <div>
-                    <el-tag v-for="(item, index) in errorData" :key="index" type="danger" effect="dark">{{item}}</el-tag>
+            <div class="result-div">
+                <div class="result-data u-f-cer">
+                    <label>消耗时间：{{timeTemp.hour}}:{{timeTemp.minute}}:{{timeTemp.second}}</label>
+                    <label>打字速度：{{speed}} 字/分钟</label>
+                    <label>退 格 数：{{backspace}} 次</label>
+                    <label>正 确 率：{{accuracy}}%</label>
+                    <label>错字/词统计</label>
+                    <div>
+                        <el-tag class="tabs" v-for="(item, index) in errorData" :key="index" type="danger" effect="dark">{{item}}</el-tag>
+                    </div>
                 </div>
             </div>
             <span slot="footer" class="dialog-footer">
@@ -588,6 +583,18 @@ export default {
                     left: 0px;
                 }
             }
+        }
+    }
+}
+.result-div {
+    width: 100%;
+    .result-data {
+        font-size: 20px;
+        label {
+            margin: 8px;
+        }
+        .tabs {
+            margin: 5px 8px;
         }
     }
 }
