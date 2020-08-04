@@ -46,6 +46,7 @@
                 <div class="wordpad" v-for="(items, indexs) in wordSplit" :key="indexs">
                     <div class="refer">
                         <span
+                            class="record"
                             v-for="(item, index) in items"
                             :key="index"
                             :class="{red:item!==WatchWord[indexs][index] && typeof WatchWord[indexs][index]!=='undefined',green:item === WatchWord[indexs][index]}">
