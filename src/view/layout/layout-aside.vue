@@ -47,6 +47,12 @@ export default {
                     icon: 'brush'
                 },
                 {
+                    path: '/typing',
+                    name: 'typing',
+                    label: '打字训练',
+                    icon: 'ship'
+                },
+                {
                     label: '组件封装',
                     icon: 'present',
                     children: [

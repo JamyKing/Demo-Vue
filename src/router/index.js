@@ -20,6 +20,11 @@ export default new VueRouter({
       component: resolve => require(['@/view/test/test'], resolve),
     },
     {
+      path: '/typing',
+      name: 'typing',
+      component: resolve => require(['@/view/typing/typing'], resolve),
+    },
+    {
       path: '/editor',
       name: 'editor',
       component: resolve => require(['@/view/component/editor'], resolve),

@@ -9,7 +9,7 @@
           <layout-header></layout-header>
         </el-header>
         <el-main style="padding: 15px;">
-          <keep-alive :include="['editor', 'loadIcon']">
+          <keep-alive :include="['home', 'typing', 'editor', 'loadIcon']">
             <router-view></router-view>
           </keep-alive>
         </el-main>
