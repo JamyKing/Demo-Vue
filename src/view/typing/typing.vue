@@ -12,7 +12,8 @@
             <el-button @click="wordChange('chinese')" :disabled="typingStatus" type="primary" size="small" :plain="wordType !== 'chinese'">中文</el-button>
             <el-button @click="wordChange('english')" :disabled="typingStatus" type="primary" size="small" :plain="wordType !== 'english'">英文</el-button>
             <el-button @click="wordChange('number')" :disabled="typingStatus" type="primary" size="small" :plain="wordType !== 'number'">数字</el-button>
-            <el-input-number @change="timeChoose" v-show="type === 'timing'" v-model="timing" controls-position="right" step-strictly :min="1" :max="60" size="small"></el-input-number>
+            <el-input-number @change="timeChoose" v-show="type === 'timing'" v-model="timing" controls-position="right" step-strictly :min="1" :max="50" size="small"></el-input-number>
+            <label v-show="type === 'timing'">(1-50 分钟)</label>
         </el-row>
         <el-row class="row-style">
             <el-select @change="init" v-model="currentWord" size="small" placeholder="请选择文章" :disabled="typingStatus">
@@ -85,8 +86,8 @@
                     <label>打字速度：{{speed}} 字/分钟</label>
                     <label>退 格 数：{{backspace}} 次</label>
                     <label>正 确 率：{{accuracy}}%</label>
-                    <label>错字/词统计</label>
-                    <div>
+                    <label v-if="errorData.length > 0">错字/词统计</label>
+                    <div v-if="errorData.length > 0">
                         <el-tag class="tabs" v-for="(item, index) in errorData" :key="index" type="danger" effect="dark">{{item}}</el-tag>
                     </div>
                 </div>
@@ -105,7 +106,7 @@ export default {
     },
     data() {
         return {
-            type: 'default', // default - 一般训练;  timing - 计时训练;  exam - 考试训练;
+            type: 'default', // default - 一般训练;  timing - 计时训练;
             wordType: 'chinese', // chinese - 中文;  english - 英文;  number - 数字;  
             typeOptions: [{
                 value: 'default',
@@ -113,13 +114,10 @@ export default {
             }, {
                 value: 'timing',
                 label: '计时训练'
-            }, {
-                value: 'exam',
-                label: '考试训练'
             }],
             typingStatus: false,
             start: false,
-            timing: 10, // 倒计时间
+            timing: 5, // 倒计时间
             time: {
                 hour: '00',
                 minute: '00',
@@ -392,15 +390,6 @@ export default {
                     this.time.minute = this.timing
                     this.timer = setInterval(this.countDown, 1000)
                     break
-                case 'exam':
-                    this.time = {
-                        hour: '01',
-                        minute: '30',
-                        second: '00'
-                    }
-                    this.timing = 90
-                    this.timer = setInterval(this.countDown, 1000)
-                    break
             }
         },
         suspend () {
@@ -499,7 +488,7 @@ export default {
             }
             let enterLength = enterSplit.join('').length
             this.speed = enterLength > 0 ? Math.round(enterLength / consume * 60) : 0
-            this.errorData = this.errorCount(wordType)
+            this.errorData = wordType !== 'number' ? this.errorCount(wordType) : []
             this.$nextTick(() => {
                 this.resultVisible = true
             })
