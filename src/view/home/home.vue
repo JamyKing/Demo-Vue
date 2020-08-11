@@ -6,17 +6,14 @@
         <div class="item-4" id="roseDom"></div>
         <div class="item-5">
             <el-timeline>
-                <el-timeline-item timestamp="2020/6/28" placement="top" type="success">
-                    <h4>菜单拖拽</h4>
+                <el-timeline-item timestamp="2020/8/05" placement="top" type="success">
+                    <h4>打字训练</h4>
                 </el-timeline-item>
                 <el-timeline-item timestamp="2020/6/23" placement="top" type="success">
-                    <h4>动态表格表单校验</h4>
+                    <h4>插件使用</h4>
                 </el-timeline-item>
-                <el-timeline-item timestamp="2020/6/14" placement="top" type="success">
-                    <h4>动态加载JS/CSS-组件</h4>
-                </el-timeline-item>
-                <el-timeline-item timestamp="2020/6/13" placement="top" type="success">
-                    <h4>富文本编辑-组件</h4>
+                <el-timeline-item timestamp="2020/6/15" placement="top" type="success">
+                    <h4>组件封装</h4>
                 </el-timeline-item>
                 <el-timeline-item timestamp="2020/6/12" placement="top" type="success">
                     <h4>Demo 演示项目上线</h4>
