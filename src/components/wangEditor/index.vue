@@ -1,9 +1,7 @@
 <template lang="html">
   <div class="editor">
-    <div ref="toolbar" class="toolbar">
-    </div>
-    <div ref="editor" class="text" :style="getHeight">
-    </div>
+    <div ref="toolbar" class="toolbar"></div>
+    <div ref="editor" class="text" :style="getHeight"></div>
   </div>
 </template>
 
