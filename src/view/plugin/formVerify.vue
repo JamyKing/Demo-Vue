@@ -119,7 +119,7 @@
         this.tableForm.testTable.push({})
       },
       delFun (scope) {
-        this.$confirm(`确认删除此条数据吗吗?`, '提示', {
+        this.$confirm(`确认删除此条数据吗?`, '提示', {
           confirmButtonText: '确认',
           cancelButtonText: '取消',
           type: 'warning',
