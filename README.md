@@ -24,7 +24,7 @@
 
 ``` bash
 # git clone
-git clone git@github.com:iRainy6661/Demo-Vue.git
+git clone git@github.com:JamyKing/Demo-Vue.git
 
 # install dependencies
 npm install
