@@ -56,7 +56,7 @@ export default {
           name: 'banner',
           imgList: [
             {
-              imgUrl: 'https://raindate.oss-cn-hangzhou.aliyuncs.com/DemoVue/bag.jpg'
+              imgUrl: 'http://www.jianking.vip/static/DemoVue/bag.jpg'
             }
           ]
         },
