@@ -56,7 +56,7 @@ export default {
           name: 'banner',
           imgList: [
             {
-              imgUrl: 'http://www.jianking.vip/static/DemoVue/bag.jpg'
+              imgUrl: 'http://www.jianking.vip/resource/DemoVue/bag.jpg'
             }
           ]
         },

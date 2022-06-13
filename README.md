@@ -18,7 +18,7 @@
 
 - [表格表单校验](http://demo.jianking.vip/#/formVerify)
 
-![DemoVue](http://www.jianking.vip/static/DemoVue/demo-home.png)
+![DemoVue](http://www.jianking.vip/resource/DemoVue/demo-home.png)
 
 ## Build Setup
 
